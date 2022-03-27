@@ -1,3 +1,13 @@
+* {
+  font-family: 'Calibri';
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+
 
 
 
@@ -5,18 +15,71 @@
 
 
 .navbar {
-  background-color: #CCC;
+  padding: 20px;
+  background-color: #666;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
 }
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-navbar {
+  float: left;
+  margin-top: 3%;
+  margin-left: 4%;
+  width: 30%;
+  background-color: green;
+}
+
+
+.right-navbar {
+  float: right;
+  margin-top: 3%;
+  margin-right: 4%;
+  width: 60%;
+  background-color: aqua;
+}
+
+
+
+
+.material-icons {
+  font-size: 40px !important;
+}
+
+
+.filter-search-bar {
+  float: right;
+  opacity: 100%;
+  width: 90%;
+  height: 40px;
+  font-size: large;
+  color: white;
+  background-color: #666;
+}
+
+
+
+
 
 
 .search-results {
+  margin-top: 7.5%;
   float: left;
-  width: 40%;
+  width: 35%;
 }
 
 .search-details {
+  margin-top: 7.5%;
   float: right;
-  width: 60%;
+  width: 65%;
 }
 
 
@@ -27,7 +90,25 @@
 
 /* Use below CSS code for reference */
 
-/* {
+
+/*
+
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+
+
+
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box; 
