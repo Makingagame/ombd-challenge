@@ -5,6 +5,54 @@
 }
 
 
+button {
+  background: white;
+  color: var(--greyDark);
+  -webkit-appearance: none;
+}
+
+/* Header */
+
+header {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.725), rgba(0, 0, 0, 0.725));
+  background-size: cover;
+  padding: 20px;
+}
+
+header a {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+header h1 {
+  color: white;
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.header-contents {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 550px;
+}
+
+@media (max-width: 650px) {
+  header h1 {
+      font-size: 1.5rem;
+      width: 100%;
+  }
+
+}
+
+
+
+
+
+
 
 
 
@@ -18,15 +66,16 @@
   padding: 20px;
   background-color: #666;
   overflow: hidden;
-  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 15%;
 }
 
-.wrapper {
+.nav-wrapper {
+  /* Will look into whether below value should be used
   display: flex;
+  */
   justify-content: space-between;
 }
 
@@ -43,22 +92,22 @@
   margin-top: 3%;
   margin-right: 4%;
   width: 60%;
-  background-color: aqua;
 }
 
 
 
 
 .material-icons {
+  float: left;
   font-size: 40px !important;
   color: white;
 }
 
 
 .filter-search-bar {
-  float: right;
+  float: left;
   opacity: 100%;
-  width: 90%;
+  width: 80%;
   height: 40px;
   font-size: large;
   color: white;
@@ -71,13 +120,11 @@
 
 
 .search-results {
-  margin-top: 7.5%;
   float: left;
   width: 35%;
 }
 
 .search-details {
-  margin-top: 15.5%;
   float: right;
   width: 65%;
 }
