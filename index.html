@@ -7,14 +7,9 @@
     <title>Movie App</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-    
-    <script>
-
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-
     <nav class="navbar">
       <div class="nav-wrapper">
         <form id="filter-form" autocomplete="off">
@@ -22,12 +17,23 @@
             <!--Magnifying Glass icon-->
             <span class="material-icons">search</span>
             <!--Search bar-->
-            <input class="filter-search-bar" type="text" id="searchbar" placeholder="Type here...">
+            <input class="filter-search-bar" type="text" id="searchMovie" placeholder="Type here...">
           </div>
           <div class="right-navbar">
+            <div class="filter-slider">
+          
+            </div>
+            
+    
+    
+    
+            <div class="filter-buttons">
+    
+            </div>
             <h2>reeee</h2>
           </div>
-        </form>        
+        </form>
+      
       </div>
     </nav>
 
@@ -45,86 +51,9 @@
     <div class="search-details">
       <h4>How is HTML/CSS the hardest part of this project</h4>
       <p>
-        And why am I so bad at it?
+        <div id="result"></div>  
       </p>
     </div>
-
-
-
-          <!--
-          <form action="/index.js" method="GET" class="form">
-            <img style="img" src="search-icon.png">
-            <input type="search" placeholder="Search" class="search-field" />
-            <button type="submit" class="search-button">
-              
-            </button>
-          </form>
-          -->
-
-
-
-
-
-
-
-        
-
-
-
-        <div class="filter-slider">
-          
-        </div>
-        
-
-
-
-        <div class="filter-buttons">
-
-        </div>
-
-
-
-
-<!--
-    <div class="nav">
-        <input type="checkbox" id="nav-check">
-        <div class="nav-header">
-          <div class="nav-title">
-            JoGeek
-          </div>
-        </div>
-        <div class="nav-btn">
-          <label for="nav-check">
-            <span></span>
-            <span></span>
-            <span></span>
-          </label>
-        </div>
-        
-        <div class="nav-links">
-          <a href="//github.io/jo_geek" target="_blank">Github</a>
-          <a href="http://stackoverflow.com/users/4084003/" target="_blank">Stackoverflow</a>
-          <a href="https://in.linkedin.com/in/jonesvinothjoseph" target="_blank">LinkedIn</a>
-          <a href="https://codepen.io/jo_Geek/" target="_blank">Codepen</a>
-          <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">JsFiddle</a>
-        </div>
-      </div>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <script>
-        
-    </script>
+    <script defer src="index.js"></script>
 </body>
 </html>
