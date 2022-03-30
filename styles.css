@@ -48,20 +48,7 @@ header h1 {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Navbar */
 .navbar {
   padding: 20px;
   background-color: #666;
@@ -73,29 +60,20 @@ header h1 {
 }
 
 .nav-wrapper {
-  /* Will look into whether below value should be used
+  /* Will look into whether below value should be used:
   display: flex;
   */
   justify-content: space-between;
 }
 
+
+/* Left Navbar (includes Search Bar filter */
 .left-navbar {
   float: left;
   margin-top: 3%;
   margin-left: 4%;
   width: 30%; 
 }
-
-
-.right-navbar {
-  float: right;
-  margin-top: 3%;
-  margin-right: 4%;
-  width: 60%;
-}
-
-
-
 
 .material-icons {
   float: left;
@@ -106,7 +84,6 @@ header h1 {
 
 .filter-search-bar {
   float: left;
-  opacity: 100%;
   width: 80%;
   height: 40px;
   font-size: large;
@@ -115,10 +92,41 @@ header h1 {
 }
 
 
+/* Right Navbar (includes Year Range Slider filter and Movie Type Radio Button filter */
+.right-navbar {
+  float: right;
+  margin-top: 3%;
+  margin-right: 4%;
+  width: 60%;
+}
 
+.year {
+  background-color: #666;
+  color:white; 
+  border:0; 
+  font-weight:bold;
+}
 
+.filter-slider {
+  float: left;
+  opacity: 100%;
+  width: 40%;
+  height: 40px;
+  font-size: large;
+  color: white;
+  background-color: #666;
+}
 
+.filter-buttons {
+  float: left;
+  margin-left: 50px;
+  width: 40%;
+  height: 40px;
+  font-size: large;
+  color:white; 
+}
 
+/* Main Body/Content */
 .search-results {
   float: left;
   width: 35%;
@@ -128,180 +136,3 @@ header h1 {
   float: right;
   width: 65%;
 }
-
-
-
-
-
-
-
-/* Use below CSS code for reference */
-
-
-/*
-
-
-.navbar a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-
-
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; 
-}
-
-body {
-  background: white;
-}
-
-.container {
-  margin: 200px auto;
-  width: 500px;
-  height: 60px
-}
-
-.form {
-  display: flex;
-  flex-direction: row;
-}
-.search-field {
-  width: 100%;
-  padding: 10px 35px 10px 15px;
-  border: none;
-  border-radius: 100px;
-  outline: none;
-}
-
-.search-button {
-  background: transparent;
-  border: none;
-  outline: none;
-  margin-left: -33px;
-}
-
-.search-button img {
-  width: 20px;
-  height: 20px;
-  object-fit: cover;
-}
-
-
-
-*/
-
-
-
-
-
-
-
-/*
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    margin: 0px;
-    font-family: 'segoe ui';
-  }
-  
-  .nav {
-    height: 50px;
-    width: 100%;
-    background-color: #4d4d4d;
-    position: relative;
-  }
-  
-  .nav > .nav-header {
-    display: inline;
-  }
-  
-  .nav > .nav-header > .nav-title {
-    display: inline-block;
-    font-size: 22px;
-    color: #fff;
-    padding: 10px 10px 10px 10px;
-  }
-  
-  .nav > .nav-btn {
-    display: none;
-  }
-  
-  .nav > .nav-links {
-    display: inline;
-    float: right;
-    font-size: 18px;
-  }
-  
-  .nav > .nav-links > a {
-    display: inline-block;
-    padding: 13px 10px 13px 10px;
-    text-decoration: none;
-    color: #efefef;
-  }
-  
-  .nav > .nav-links > a:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-  
-  .nav > #nav-check {
-    display: none;
-  }
-  
-  @media (max-width:600px) {
-    .nav > .nav-btn {
-      display: inline-block;
-      position: absolute;
-      right: 0px;
-      top: 0px;
-    }
-    .nav > .nav-btn > label {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      padding: 13px;
-    }
-    .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
-      background-color: rgba(0, 0, 0, 0.3);
-    }
-    .nav > .nav-btn > label > span {
-      display: block;
-      width: 25px;
-      height: 10px;
-      border-top: 2px solid #eee;
-    }
-    .nav > .nav-links {
-      position: absolute;
-      display: block;
-      width: 100%;
-      background-color: #333;
-      height: 0px;
-      transition: all 0.3s ease-in;
-      overflow-y: hidden;
-      top: 50px;
-      left: 0px;
-    }
-    .nav > .nav-links > a {
-      display: block;
-      width: 100%;
-    }
-    .nav > #nav-check:not(:checked) ~ .nav-links {
-      height: 0px;
-    }
-    .nav > #nav-check:checked ~ .nav-links {
-      height: calc(100vh - 50px);
-      overflow-y: auto;
-    }
-  }
-*/
