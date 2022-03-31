@@ -19,6 +19,7 @@ $(function sliderValue() {
  });
 
 
+ 
 //On keyup (user releases keyboard key) run below (send an API call and retrieve results based on filters)
 searchMovie.addEventListener("keyup", e => { 
     const searchMovieString = e.target.value;
