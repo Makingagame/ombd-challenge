@@ -1,40 +1,94 @@
 const apikey = "9f8a2da0";
+const moviesList = document.getElementById('moviesList')
 const searchMovie = document.getElementById("searchMovie");
-let type = document.getElementById("type");
+let type = document.getElementsByName("type");
+let val = type[1].value;
 
 
-//Year Range Slider Function
-$(function sliderValue() {
-    $( "#slider-3" ).slider({
-       range:true,
-       min: 1900,
-       max: 2040,
-       values: [ 1970, 2015 ],
-       slide: function( event, ui ) {
-          $( "#yearRange" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-       }
-    });
-    $( "#yearRange" ).val( $( "#slider-3" ).slider( "values", 0 ) +
-       " - " + $( "#slider-3" ).slider( "values", 1 ) );
- });
 
 
- 
+
+
+
+
+
+
+/*Slider filter function */
+window.onload = function(){
+    slideOne();
+    slideTwo();
+}
+
+let sliderOne = document.getElementById("slider-1");
+let sliderTwo = document.getElementById("slider-2");
+let displayValOne = document.getElementById("range1");
+let displayValTwo = document.getElementById("range2");
+let minGap = 0;
+let sliderTrack = document.querySelector(".slider-track");
+let sliderMinValue = document.getElementById("slider-1").min;
+let sliderMaxValue = document.getElementById("slider-1").max;
+let sliderRange = sliderMaxValue - sliderMinValue;
+
+function slideOne(){
+    if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
+        sliderOne.value = parseInt(sliderTwo.value) - minGap;
+    }
+    displayValOne.textContent = sliderOne.value;
+    fillColor();
+}
+function slideTwo(){
+    if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
+        sliderTwo.value = parseInt(sliderOne.value) + minGap;
+    }
+    displayValTwo.textContent = sliderTwo.value;
+    fillColor();
+}
+function fillColor(){
+    percent1 = (sliderOne.value-sliderMinValue) / sliderRange * 100;
+    percent2 = (sliderTwo.value-sliderMinValue) / sliderRange * 100;
+    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`;
+}
+
+
+function radioButton(){
+    
+    if(type[0].checked)
+    {
+        val = type[0].value;
+        return;
+    }
+
+    if(type[1].checked)
+    {
+        val = type[1].value;
+        return;
+    }
+
+    if(type[2].checked)
+    {
+        val = type[2].value;
+        return;
+    }    
+
+    if(type[3].checked) {
+        val = type[3].value;
+        return;
+    }
+}
+
 //On keyup (user releases keyboard key) run below (send an API call and retrieve results based on filters)
 searchMovie.addEventListener("keyup", e => { 
-    const searchMovieString = e.target.value;
+    
     $(document).ready(function(){
-        let searchMovie = $("#searchMovie").val()
-        let type = $("#type").val()
+        let searchMovie = $("#searchMovie").val()   
 
         let url = "http://www.omdbapi.com/?apikey="+apikey
 
         $.ajax({
             method:'GET',
-            url:url+"&t="+searchMovie+"&y="+yearRangeStart+"-"+yearRangeEnd,
+            url:url+"&t="+searchMovie+"&type="+val,
             success:function(data){
-                console.log(data)
-
+                
                 movieTitleYear = `
                         
                 <img style="float:left" class="img-thumbnail" width="200" height="200" src="${data.Poster}"/>
@@ -55,6 +109,10 @@ searchMovie.addEventListener("keyup", e => {
 
                 $("#movieTitleYear").html(movieTitleYear)
                 $("#movieDetails").html(movieDetails)
+                
+                console.log(data)
+                console.log(url+"&t="+searchMovie+"&type="+val)
+        
             }
         })
 

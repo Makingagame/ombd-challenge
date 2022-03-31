@@ -40,27 +40,37 @@
           <div class="right-navbar">
           <!-- Year Range Slider Filter -->
             <div class="filter-slider">
-              <p>
-                <label for = "yearRange">YEAR</label>
-                <input type = "text" class = "yearRange" id = "yearRange">
-              </p>
-              <div id = "slider-3"></div>
+              <div class="values">
+                <span id="range1">
+                    0
+                </span>
+                <span> &dash; </span>
+                <span id="range2">
+                    100
+                </span>
+              </div>
+              <div class="container">
+                  <div class="slider-track"></div>
+                  <input type="range" min="1930" max="2140" value="1970" id="slider-1" oninput="slideOne()">
+                  <input type="range" min="1930" max="2140" value="2015" id="slider-2" oninput="slideTwo()">
+              </div>
+                <div id = "slider-3"></div>
             </div>
             
             <!-- Movie Type Radio Buttons Filter -->
             <div class="filter-buttons">
-              <label for = "year">TYPE</label> <br>
+              <label for = "type">TYPE</label> <br>
               <label class="filter-radio">
-                <input type="radio" name="horizontal-radio">Any
+                <input type="radio" name="type" value="" onclick="radioButton();">Any
               </label>
               <label class="filter-radio">
-                <input type="radio" name="horizontal-radio" checked>Movies
+                <input type="radio" name="type" value="movie" onclick="radioButton();" checked>Movies
               </label>
               <label class="filter-radio">
-                <input type="radio" name="horizontal-radio">Series
+                <input type="radio" name="type" value="series" onclick="radioButton();">Series
               </label>
               <label class="filter-radio">
-                <input type="radio" name="horizontal-radio">Episodes
+                <input type="radio" name="type" value="episodes" onclick="radioButton();">Episodes
               </label>
             </div>
             
@@ -70,7 +80,29 @@
       </div>
     </div>
 
-    
+
+
+
+
+
+
+
+
+
+    <div class="main-contents" id="moviesList">
+      <div id="movielist-default-container">
+          <img src="images/movie-icon.svg" alt="Search movie list to start exploring movies."
+              class="movie-icon movie-list-default-display">
+          <p class="text-grey-light fs-18 bold movie-list-default-display">Start exploring</p>
+      </div>
+  </div>
+
+
+
+
+
+
+
 
 
     <div class="search-results">
