@@ -76,7 +76,7 @@ function radioButton(){
     }
 }
 
-//On keyup (user releases keyboard key) run below (send an API call and retrieve results based on filters)
+//On keyup (user releases keyboard key) run below (send an API call and retrieve results based on filter values)
 searchMovie.addEventListener("keyup", e => { 
     
     $(document).ready(function(){

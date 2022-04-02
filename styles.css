@@ -249,7 +249,7 @@ input[type="range"]::-ms-thumb{
   color:white; 
 }
 
-/* Main Body/Content */
+/* ------------------------------------- Main Body/Content ------------------------------------- */
 .search-results {
   float: left;
   width: 35%;
