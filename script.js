@@ -46,7 +46,7 @@ function slideTwo(){
 function fillColor(){
     percent1 = (sliderOne.value-sliderMinValue) / sliderRange * 100;
     percent2 = (sliderTwo.value-sliderMinValue) / sliderRange * 100;
-    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`;
+    sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , grey ${percent1}% , grey ${percent2}%, #dadae5 ${percent2}%)`;
 }
 
 
@@ -69,11 +69,6 @@ function radioButton(){
         val = type[2].value;
         return;
     }    
-
-    if(type[3].checked) {
-        val = type[3].value;
-        return;
-    }
 }
 
 //On keyup (user releases keyboard key) run below (send an API call and retrieve results based on filter values)
@@ -82,11 +77,19 @@ searchMovie.addEventListener("keyup", e => {
     $(document).ready(function(){
         let searchMovie = $("#searchMovie").val()   
 
-        let url = "http://www.omdbapi.com/?apikey="+apikey
+        let url = "http://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val
+
+        //If "episode" is selected, use this url structure
+        if(type[3].checked){
+            //Add season number variable in URL below WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+            url = "http://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season=1"
+        }
 
         $.ajax({
             method:'GET',
-            url:url+"&t="+searchMovie+"&type="+val,
+
+            url,
+
             success:function(data){
                 
                 movieTitleYear = `
@@ -111,11 +114,8 @@ searchMovie.addEventListener("keyup", e => {
                 $("#movieDetails").html(movieDetails)
                 
                 console.log(data)
-                console.log(url+"&t="+searchMovie+"&type="+val)
-        
             }
         })
 
     })
 });
-  
