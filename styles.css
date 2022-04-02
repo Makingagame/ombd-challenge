@@ -107,7 +107,8 @@ header h1 {
   color: white;
   background-color: #666;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
+  border: 1px solid;
+  border-style: none;
   margin-left: 25px;
 }
 
@@ -257,7 +258,28 @@ input[type="range"]::-ms-thumb{
 .search-results {
   float: left;
   width: 40%;
+  align-items: center;
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+  border-right:grey solid 1px;
 }
+
+.movie-icon {
+  margin-bottom: 0.5em;
+}
+
+#moviesList-default-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50vh;
+}
+
+
+
+
 
 .search-details {
   float: right;
@@ -296,33 +318,11 @@ input[type="range"]::-ms-thumb{
 
 
 
-.main-contents {
-  align-items: center;
-  display: grid;
-  flex-direction: column;
-  justify-content: center;
-  margin: 4em auto;
-  max-width: 550px;
-}
 
-@media (max-width: 650px) {
-  .main-contents {
-      margin: 6em auto;
-      max-width: 90%;
-  }
-}
 
-.movie-icon {
-  margin-bottom: 0.5em;
-}
 
-#movielist-default-container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 50vh;
-}
+
+
 
 #watchlist-default-display-container {
   align-items: center;

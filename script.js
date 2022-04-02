@@ -12,7 +12,6 @@ let val = type[1].value;
 
 
 
-
 /*Slider filter function */
 window.onload = function(){
     slideOne();
@@ -119,3 +118,11 @@ searchMovie.addEventListener("keyup", e => {
 
     })
 });
+
+
+
+
+
+
+
+
