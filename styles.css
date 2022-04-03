@@ -249,12 +249,6 @@ input[type="range"]::-ms-thumb{
 
 
 
-
-
-
-
-
-
 /* ----------Main Body/Content---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
@@ -336,11 +330,13 @@ input[type="range"]::-ms-thumb{
 }
 
 .card {
+  
+  padding-top: 25px;
   display: grid;
   column-gap: 1.5em;
   border-bottom: 1px solid #dfdddd;
-  margin-bottom: 1.5em;
-  padding-bottom: 1.5em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
   grid-auto-rows: 1fr 0.5fr 1fr 1fr;
   grid-template-areas:
       'poster header'
@@ -365,17 +361,14 @@ input[type="range"]::-ms-thumb{
 
 .card-poster {
   grid-area: poster;
-
   border-radius: 2px;
-  height: auto;
-  min-height: 219px;
-  object-fit: contain;
-  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  width: 100px;
 }
 
 .card-header {
   grid-area: header;
-
   align-items: center;
   display: flex;
   margin-bottom: 0.5em;
@@ -430,6 +423,11 @@ input[type="range"]::-ms-thumb{
 .card-watchlist-plus-icon {
   margin-bottom: -2px;
   margin-right: 2px;
+}
+
+.card-year {
+  color:grey;
+  font-size: large;
 }
 
 .card-meta {
