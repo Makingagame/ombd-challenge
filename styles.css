@@ -12,6 +12,9 @@ button {
   -webkit-appearance: none;
 }
 
+.hide {
+  display: none;
+}
 
 
 
