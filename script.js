@@ -2,21 +2,20 @@
                                     GLOBAL DECLARATIONS
     ------------------------------------------------------------------------------------------ */
 
-
 const apikey = "9f8a2da0";
 const moviesList = document.getElementById('moviesList')
 const movieDetails = document.getElementById('movieDetails')
 const searchMovie = document.getElementById("searchMovie");
 const type = document.getElementsByName("type");
+const card = document.getElementsByName("card")
 
 const watchlist = document.getElementById('watchlist')
 const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn')
 const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn')
 const movieKey = document.getElementsByClassName('movie-key')
 const localStorageKeys = Object.keys(localStorage)
-let isEpisodes = false;
+let season = document.getElementById('season').value;
 let val = "";
-
 
 //Only display the below code if the page is index.html (do not display on watchlist.html)
 /*  ------------------------------------------------------------------------------------------ 
@@ -29,6 +28,7 @@ if(!watchlist){
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER FUNCTION
     ------------------------------------------------------------------------------------------ */
+
     window.onload = function(){
         slideOne();
         slideTwo();
@@ -62,167 +62,232 @@ if(!watchlist){
         percent1 = (sliderOne.value-sliderMinValue) / sliderRange * 100;
         percent2 = (sliderTwo.value-sliderMinValue) / sliderRange * 100;
         sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , grey ${percent1}% , grey ${percent2}%, #dadae5 ${percent2}%)`;
-        //When either slider button is pressed, search for movies
-        searchMovies();
     }
 
 /*  ------------------------------------------------------------------------------------------ 
                                     RADIO BUTTON FUNCTION
     ------------------------------------------------------------------------------------------ */
+
     function radioButton(){
         
         if(type[0].checked)
         {
             //empty
             val = type[0].value;
-            isEpisodes = false;
         }
 
         if(type[1].checked)
         {
             val = type[1].value;
-            isEpisodes = false;
         }
 
         if(type[2].checked)
         {
             val = type[2].value;
-            isEpisodes = false;
         }
 
-        if(type[3].checked)
-        {
-            isEpisodes = true;
-        }
         //When radio button is pressed, search for movies
         searchMovies();
-        return;
+    }
+
+/*  ------------------------------------------------------------------------------------------ 
+                                    SLIDER ONMOUSEUP FUNCTION
+    ------------------------------------------------------------------------------------------ */
+    
+    //Search is performed after slider button is released, not everytime value changes
+    function sliderClicked(){
+        searchMovies();
+    };
+
+/*  ------------------------------------------------------------------------------------------ 
+                                    TEXT BOX (SEASON) FUNCTION
+    ------------------------------------------------------------------------------------------ */
+
+    function changeSeason(){
+        season = document.getElementById('season').value;
+        type[3].checked = true;
+        searchMovies();
     }
 
 /*  ------------------------------------------------------------------------------------------ 
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
+
     //In the search bar, on keyup (user releases a keyboard key) search for movies
     searchMovie.addEventListener("keyup", e => { 
         searchMovies();
     })
 
-    async function searchMovies(){
 
-        // Hide default elements
+    async function searchMovies(){
+        //Hide default elements
         if (moviesList.children) {
             let children = moviesList.children
             let childrenArr = Array.prototype.slice.call(children)
             childrenArr.forEach((child) => child.remove())
         }
-
-        let searchMovie = $("#searchMovie").val()   
-        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val 
-
-        //If "episode" is selected, use this url structure (to be moved to it's own function SO IT CAN BE RUN WITH ANY)
-        if(isEpisodes){
-            //Add season number variable in URL below WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-            url = "http://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season=1"
-        }
-        console.log(url)
-
-        let res = await fetch(url)
-        let data = await res.json()
-
-        console.log(data)
         
-        //If type is anything but "Episodes"
-        let movies = data.Search
-        //If type is "Episodes"
-        if(isEpisodes){
-            movies = data.Episodes
+
+        //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
+        if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
+            console.log("Any, Movies, Series")
+            let searchMovie = $("#searchMovie").val()   
+            let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val
+
+            let res = await fetch(url)
+            let data = await res.json()
+
+            console.log(data)
+
+            let movies = data.Search
+
+            // Get and display search results
+            movies.forEach(async (movie) => {
+
+                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID
+
+                let response = await fetch(url)
+                let moviesListData = await response.json()
+
+
+                const completePlot = moviesListData.Plot
+                const movieID = moviesListData.imdbID
+                const movieIDkey = moviesListData.imdbID + 'key'
+                const watchlistBtnKey = moviesListData.imdbID + 'watchlistBtn'
+                const removeBtnKey = moviesListData.imdbID + 'removeBtn'
+
+                if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
+                    moviesList.innerHTML +=
+                    `
+                    <li name="card" onclick="expandDetails">
+                        <div class="card" id=${movieID}>
+                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                            <img src=${moviesListData.Poster} class="card-poster" />
+
+                            <div class="card-header">
+                                <a onclick="expandDetails()" href="#" >
+                                    <h2 class="card-title">${moviesListData.Title}</h2>
+                                </a>
+                            </div>
+                            
+                            <div class="card-meta">
+                                <span class="card-year">${moviesListData.Year}</span>
+                            </div>
+                        </div>
+                    </li>
+                    `
+                }
+            })
         }
-        
-        // Get and display search results
-        movies.forEach(async (movie) => {
-
-            url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID
-
-            let response = await fetch(url)
-            let moviesListData = await response.json()
 
 
-            const completePlot = moviesListData.Plot
-            const movieID = moviesListData.imdbID
-            const movieIDkey = moviesListData.imdbID + 'key'
-            const watchlistBtnKey = moviesListData.imdbID + 'watchlistBtn'
-            const removeBtnKey = moviesListData.imdbID + 'removeBtn'
 
+        //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
+        if (type[0].checked == true || type[3].checked == true) {
+            let searchMovie = $("#searchMovie").val()
+            let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+season
+
+            let res = await fetch(url)
+            let data = await res.json()
+
+            console.log(data)
             
-            moviesList.innerHTML +=
-            /*
-            `
-                <img style="float:left" class="img-thumbnail" width="200" height="200" src="${data.Poster}"/>
-                <h2>${data.Title}</h2>
-                <h2>${data.Year}</h2>
-            `
+            let movies = data.Episodes
             
-            
-             
-            `
-            <div class="cards">
-                <div class="card" id=${movieID}>
-                    <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                    <img src=${moviesListData.Poster} class="card-poster" />
+            // Get and display search results
+            movies.forEach(async (movie) => {
 
-                    <div class="card-header">
-                        <h2 class="card-title">${moviesListData.Title}</h2>
-                        <img src="images/star-icon.svg" class="star-icon" />
-                        <span class="card-rating">${moviesListData.imdbRating}</span>
-                    </div>
-                    
-                    <div class="card-meta">
-                        <span class="card-runtime">${moviesListData.Runtime}</span>
-                        <span>${moviesListData.Genre}</span>
+                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID
 
-                        <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${movieIDkey}, ${movieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+                let response = await fetch(url)
+                let moviesListData = await response.json()
 
-                        <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${movieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
-                    </div>
-                    <p class="card-plot">${completePlot}</p>
-                </div>
-            </div>
+
+                const completePlot = moviesListData.Plot
+                const movieID = moviesListData.imdbID
+                const movieIDkey = moviesListData.imdbID + 'key'
+                const watchlistBtnKey = moviesListData.imdbID + 'watchlistBtn'
+                const removeBtnKey = moviesListData.imdbID + 'removeBtn'
+
+                if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
+                    moviesList.innerHTML +=
+                    `
+                    <li name="card">
+                        <div class="card" id=${movieID}>
+                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                            <img src=${moviesListData.Poster} class="card-poster" />
+
+                            <div class="card-header">
+                                <a onclick="expandDetails()" href="#">
+                                    <h2 class="card-title">${moviesListData.Title}</h2>
+                                </a>
+                            </div>
+                            
+                            <div class="card-meta">
+                                <span class="card-year">${moviesListData.Year}</span>
+                            </div>
+                        </div>
+                        </span>
+                    </li>
+                    `
+                }
+            })
+        }
+    }
+
+
+    //Search is performed after slider button is released, not everytime value changes
+    function expandDetails(){
+        console.log("SUCCESS"); 
+        movieDetails =               
         `
-            
-            */
-            
-            `
-            <div class="cards">
-                <div class="card" id=${movieID}>
-                    <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                    <img src=${moviesListData.Poster} class="card-poster" />
+        <div class="cards">
+            <div class="card" id=${movieID}>
+                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                <img src=${moviesListData.Poster} class="card-poster" />
 
-                    <div class="card-header">
-                        <h2 class="card-title">${moviesListData.Title}</h2>
-                    </div>
-                    
-                    <div class="card-meta">
-                        <span class="card-year">${moviesListData.Year}</span>
-                    </div>
+                <div class="card-header">
+                    <h2 class="card-title">${moviesListData.Title}</h2>
+                    <img src="images/star-icon.svg" class="star-icon" />
+                    <span class="card-rating">${moviesListData.imdbRating}</span>
                 </div>
+                
+                <div class="card-meta">
+                    <span class="card-runtime">${moviesListData.Runtime}</span>
+                    <span>${moviesListData.Genre}</span>
+
+                    <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${movieIDkey}, ${movieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+
+                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${movieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
+                </div>
+                <p class="card-plot">${completePlot}</p>
             </div>
-            `
+        </div>
+    `
         
         displayWatchlistOrRemoveBtn()
-        })
-    }
+    };
 }
-
 /*  ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 
                                         INDEX.HTML
     ------------------------------------------------------------------------------------------ */
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 /*  ------------------------------------------------------------------------------------------ 
                                 WATCH LIST + LOCAL STORAGE
     ------------------------------------------------------------------------------------------ */
-
 
 function displayWatchlistOrRemoveBtn() {
     for (let movie of movieKey) {

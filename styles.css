@@ -16,6 +16,20 @@ button {
   display: none;
 }
 
+li {
+  list-style-type: none;
+}
+
+
+.listblock ul li a {
+  padding: 5px 30px 5px 10px;
+  display: block;
+}
+
+.listblock ul li a:hover {
+  background: transparent url('../img/basket.png') no-repeat 3px 170px;
+}
+
 
 
 /* ----------Header---------- */
@@ -232,9 +246,13 @@ input[type="range"]::-ms-thumb{
     pointer-events: auto;
 }
 
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Year Range Slider filter---------- */
+
+
 /*Movie Type Radio Button filter*/
 
-.filter-buttons {
+.filter-other {
   float: right;
   margin-left: 50px;
   width: 40%;
@@ -243,8 +261,15 @@ input[type="range"]::-ms-thumb{
   color:white; 
 }
 
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-/* ----------Year Range Slider filter---------- */
+/*Season Text Box Filter*/
+input[type="number"]{
+  /*Need to add?*/
+  position: absolute;
+
+}
+
+
+
 
 
 
@@ -278,6 +303,7 @@ input[type="range"]::-ms-thumb{
 
 
 
+
 .search-details {
   float: right;
   width: 60%;
@@ -287,11 +313,54 @@ input[type="range"]::-ms-thumb{
 
 
 
+/*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 37px auto 0;
+  width: calc(280px * 4);
+}
+
+.card {
+  box-shadow: 0 3px 10px 0 #aaa;
+  cursor: pointer;
+  height: 280px;
+  position: relative;
+  width: 243px;
+}
+
+.card h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card.visited {
+  box-shadow: 0 3px 10px 2px #444;
+}
+
+@media (max-width: 1100px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    width: calc(280px * 2);
+  }
+  .card {
+    margin: 0 auto 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards {
+    display: block;
+    width: 100vw;
+  }
+  .card {
+    margin: 0 auto 2rem;
+  }
+}
 
 
-
-
-
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
 
 
 
@@ -330,7 +399,8 @@ input[type="range"]::-ms-thumb{
 }
 
 .card {
-  
+  max-width: 400px;
+  max-height: 175px;
   padding-top: 25px;
   display: grid;
   column-gap: 1.5em;

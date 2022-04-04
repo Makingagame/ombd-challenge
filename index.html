@@ -51,14 +51,13 @@
               </div>
               <div class="container">
                 <div class="slider-track"></div>
-                <input type="range" min="1930" max="2030" value="1970" id="slider-1" oninput="slideOne()">
-                <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo()">
-
+                <input type="range" min="1930" max="2030" value="1970" id="slider-1" oninput="slideOne()" onmouseup="sliderClicked()">
+                <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo()" onmouseup="sliderClicked()">
               </div>
             </div>
 
-            <!-- Movie Type Radio Buttons Filter -->
-            <div class="filter-buttons">
+            <!-- [Movie Type Radio Buttons] and [Season Text Box] Filters -->
+            <div class="filter-other">
               <label for = "type">TYPE</label> <br>
               <label class="filter-radio">
                 <input type="radio" name="type" value="" onclick="radioButton();">Any
@@ -72,9 +71,12 @@
               <label class="filter-radio">
                 <input type="radio" name="type" value="episodes" onclick="radioButton();">Episodes
               </label>
+              <br>
+              <label class="filter-season">
+                Season No.<input type="number" id="season" value="1" onkeyup="changeSeason();">
+              </label>
             </div>
-            
-          </div>
+          </div>  
         </form>
       
       </div>
