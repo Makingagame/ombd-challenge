@@ -3,19 +3,21 @@
     ------------------------------------------------------------------------------------------ */
 
 const apikey = "9f8a2da0";
-const moviesList = document.getElementById('moviesList')
-const movieDetails = document.getElementById('movieDetails')
+const moviesList = document.getElementById('moviesList');
+const movieDetails = document.getElementById('movieDetails');
 const searchMovie = document.getElementById("searchMovie");
 const type = document.getElementsByName("type");
-const card = document.getElementsByName("card")
+const card = document.getElementsByName("card");
 
-const watchlist = document.getElementById('watchlist')
-const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn')
-const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn')
-const movieKey = document.getElementsByClassName('movie-key')
-const localStorageKeys = Object.keys(localStorage)
-let season = document.getElementById('season').value;
+const watchlist = document.getElementById('watchlist');
+const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn');
+const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn');
+const movieKey = document.getElementsByClassName('movie-key');
+const localStorageKeys = Object.keys(localStorage);
+let selectedImdbID = "";
 let val = "";
+let idArray = [];
+let i = 0;
 
 //Only display the below code if the page is index.html (do not display on watchlist.html)
 /*  ------------------------------------------------------------------------------------------ 
@@ -24,7 +26,7 @@ let val = "";
 
 if(!watchlist){
     val = type[1].value;
-
+    let season = document.getElementById('season').value;
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER FUNCTION
     ------------------------------------------------------------------------------------------ */
@@ -109,6 +111,16 @@ if(!watchlist){
         searchMovies();
     }
 
+
+/*  ------------------------------------------------------------------------------------------ 
+                                    EXPAND DETAILS FUNCTION
+    ------------------------------------------------------------------------------------------ */
+
+    //Cannot call main function from onclick of Movie Title, so this function is called instead
+    function expandDetails(i){
+        expandDetailsFunction(i);
+    }
+
 /*  ------------------------------------------------------------------------------------------ 
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
@@ -122,50 +134,49 @@ if(!watchlist){
     async function searchMovies(){
         //Hide default elements
         if (moviesList.children) {
-            let children = moviesList.children
-            let childrenArr = Array.prototype.slice.call(children)
-            childrenArr.forEach((child) => child.remove())
+            let children = moviesList.children;
+            let childrenArr = Array.prototype.slice.call(children);
+            childrenArr.forEach((child) => child.remove());
+            //Empty array used for displaying further details of movies
+            idArray.splice(0, idArray.length);
+            i = 0;
         }
         
 
         //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
         if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
-            console.log("Any, Movies, Series")
-            let searchMovie = $("#searchMovie").val()   
-            let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val
+            let searchMovie = $("#searchMovie").val();
 
-            let res = await fetch(url)
-            let data = await res.json()
+            let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val;
 
-            console.log(data)
+            let res = await fetch(url);
+            let data = await res.json();
 
-            let movies = data.Search
+            let movies = data.Search;
 
             // Get and display search results
             movies.forEach(async (movie) => {
 
-                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID
+                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
 
-                let response = await fetch(url)
-                let moviesListData = await response.json()
+                let response = await fetch(url);
+                let moviesListData = await response.json();
 
-
-                const completePlot = moviesListData.Plot
-                const movieID = moviesListData.imdbID
-                const movieIDkey = moviesListData.imdbID + 'key'
-                const watchlistBtnKey = moviesListData.imdbID + 'watchlistBtn'
-                const removeBtnKey = moviesListData.imdbID + 'removeBtn'
+                const movieID = moviesListData.imdbID;
+                i++;
+                idArray[i]= movieID;
+                const movieIDkey = moviesListData.imdbID + 'key';
 
                 if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
                     moviesList.innerHTML +=
                     `
-                    <li name="card" onclick="expandDetails">
+                    <li name="card">
                         <div class="card" id=${movieID}>
                             <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
                             <img src=${moviesListData.Poster} class="card-poster" />
-
+                            
                             <div class="card-header">
-                                <a onclick="expandDetails()" href="#" >
+                                <a onclick="expandDetails(${i})" href="#">
                                     <h2 class="card-title">${moviesListData.Title}</h2>
                                 </a>
                             </div>
@@ -175,7 +186,7 @@ if(!watchlist){
                             </div>
                         </div>
                     </li>
-                    `
+                    `;
                 }
             })
         }
@@ -184,30 +195,25 @@ if(!watchlist){
 
         //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
         if (type[0].checked == true || type[3].checked == true) {
-            let searchMovie = $("#searchMovie").val()
-            let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+season
+            let searchMovie = $("#searchMovie").val();
 
-            let res = await fetch(url)
-            let data = await res.json()
-
-            console.log(data)
+            let res = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+season);
+            let data = await res.json();
             
-            let movies = data.Episodes
+            let movies = data.Episodes;
             
             // Get and display search results
             movies.forEach(async (movie) => {
 
-                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID
+                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
 
-                let response = await fetch(url)
-                let moviesListData = await response.json()
+                let response = await fetch(url);
+                let moviesListData = await response.json();
 
-
-                const completePlot = moviesListData.Plot
-                const movieID = moviesListData.imdbID
-                const movieIDkey = moviesListData.imdbID + 'key'
-                const watchlistBtnKey = moviesListData.imdbID + 'watchlistBtn'
-                const removeBtnKey = moviesListData.imdbID + 'removeBtn'
+                const movieID = moviesListData.imdbID;
+                i++;
+                idArray[i]= movieID;
+                const movieIDkey = moviesListData.imdbID + 'key';
 
                 if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
                     moviesList.innerHTML +=
@@ -218,7 +224,7 @@ if(!watchlist){
                             <img src=${moviesListData.Poster} class="card-poster" />
 
                             <div class="card-header">
-                                <a onclick="expandDetails()" href="#">
+                                <a onclick="expandDetails(${i})" href="#">
                                     <h2 class="card-title">${moviesListData.Title}</h2>
                                 </a>
                             </div>
@@ -227,139 +233,133 @@ if(!watchlist){
                                 <span class="card-year">${moviesListData.Year}</span>
                             </div>
                         </div>
-                        </span>
                     </li>
-                    `
+                    `;
                 }
             })
         }
     }
 
 
-    //Search is performed after slider button is released, not everytime value changes
-    function expandDetails(){
-        console.log("SUCCESS"); 
-        movieDetails =               
+    //Display selected movie on right side of window
+    async function expandDetailsFunction(i){
+
+        let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]);
+        let moviesDetailsData = await response.json();
+
+        const completePlot = moviesDetailsData.Plot;
+        const expandMovieID = moviesDetailsData.imdbID + 'expand';
+        const expandMovieIDkey = moviesDetailsData.imdbID + 'expandKey';
+        const watchlistBtnKey = moviesDetailsData.imdbID + 'watchlistBtn';
+        const removeBtnKey = moviesDetailsData.imdbID + 'removeBtn';
+        movieDetails.innerHTML = 
         `
         <div class="cards">
-            <div class="card" id=${movieID}>
-                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                <img src=${moviesListData.Poster} class="card-poster" />
+            <div class="card" id=${expandMovieID}>
+                <span id=${expandMovieIDkey} class="hide movie-key">${expandMovieIDkey}</span>
+                <img src=${moviesDetailsData.Poster} class="card-poster" />
 
                 <div class="card-header">
-                    <h2 class="card-title">${moviesListData.Title}</h2>
+                    <h2 class="card-title">${moviesDetailsData.Title}</h2>
                     <img src="images/star-icon.svg" class="star-icon" />
-                    <span class="card-rating">${moviesListData.imdbRating}</span>
+                    <span class="card-rating">${moviesDetailsData.imdbRating}</span>
                 </div>
                 
                 <div class="card-meta">
-                    <span class="card-runtime">${moviesListData.Runtime}</span>
-                    <span>${moviesListData.Genre}</span>
+                    <span class="card-runtime">${moviesDetailsData.Runtime}</span>
+                    <span>${moviesDetailsData.Genre}</span>
 
-                    <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${movieIDkey}, ${movieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
-
-                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${movieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
+                    <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
                 </div>
                 <p class="card-plot">${completePlot}</p>
             </div>
         </div>
-    `
-        
-        displayWatchlistOrRemoveBtn()
-    };
+    `;
+        displayWatchlistOrRemoveBtn();
+    }
 }
 /*  ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ 
                                         INDEX.HTML
     ------------------------------------------------------------------------------------------ */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*  ------------------------------------------------------------------------------------------ 
-                                WATCH LIST + LOCAL STORAGE
+                        WATCHLIST.HTML (Some of it is used in index.html)
     ------------------------------------------------------------------------------------------ */
 
 function displayWatchlistOrRemoveBtn() {
+    
     for (let movie of movieKey) {
-        const removeBtnID = movie.id.slice(0, 9) + 'removeBtn'
-        const removeBtn = document.getElementById(removeBtnID)
+        const removeBtnID = movie.id.slice(0, 9) + 'removeBtn';
+        const removeBtn = document.getElementById(removeBtnID);
 
-        const watchlistBtnID = movie.id.slice(0, 9) + 'watchlistBtn'
-        const watchlistBtn = document.getElementById(watchlistBtnID)
+        const watchlistBtnID = movie.id.slice(0, 9) + 'watchlistBtn';
+        const watchlistBtn = document.getElementById(watchlistBtnID);
 
         localStorageKeys.forEach((key) => {
             if (movie.id === key) {
-                removeBtn.style.display = 'inline'
-                watchlistBtn.style.display = 'none'
+                removeBtn.style.display = 'inline';
+                watchlistBtn.style.display = 'none';
             }
         })
     }
 }
 
-function addToWatchlist(movieIDkey, movieID, watchlistBtnKey, removeBtnKey) {
-    localStorage.setItem(movieIDkey.innerHTML, movieID.innerHTML)
-    watchlistBtnKey.style.display = 'none'
-    removeBtnKey.style.display = 'inline'
+function addToWatchlist(expandMovieIDkey, expandMovieID, watchlistBtnKey, removeBtnKey) {
+    localStorage.setItem(expandMovieIDkey.innerHTML, expandMovieID.innerHTML);
+    watchlistBtnKey.style.display = 'none';
+    removeBtnKey.style.display = 'inline';
 }
 
 function removeFromWatchlist(movieIDkey, removeBtnKey, watchlistBtnKey, removeBtnKey) {
-    localStorage.removeItem(movieIDkey.innerHTML)
 
+    localStorage.removeItem(movieIDkey.innerHTML);
     // Get parent element (the movie card div) and remove it
     if (watchlist) {
-        localStorage.removeItem(movieIDkey.innerHTML)
+        localStorage.removeItem(movieIDkey.innerHTML);
 
-        const parentEl = document.getElementById(movieIDkey.innerHTML).parentElement
-        parentEl.remove()
+        const parentEl = document.getElementById(movieIDkey.innerHTML).parentElement;
+        parentEl.remove();
     }
 
-    watchlistBtnKey.style.display = 'inline'
-    removeBtnKey.style.display = 'none'
+    watchlistBtnKey.style.display = 'inline';
+    removeBtnKey.style.display = 'none';
 
     // Display default elements if local storage empty
     if (watchlist && localStorage.length === 0) {
         if (watchlist.children) {
-            const children = watchlist.children
-            const childrenArr = Array.prototype.slice.call(children)
-            childrenArr.forEach((child) => (child.style.display = 'flex'))
+            const children = watchlist.children;
+            const childrenArr = Array.prototype.slice.call(children);
+            childrenArr.forEach((child) => (child.style.display = 'flex'));
         }
     }
 }
+
 
 // Hide default elements if data is in local storage
 if (watchlist && localStorage.length > 0) {
     if (watchlist.children) {
-        const children = watchlist.children
-        const childrenArr = Array.prototype.slice.call(children)
-        childrenArr.forEach((child) => (child.style.display = 'none'))
+        const children = watchlist.children;
+        const childrenArr = Array.prototype.slice.call(children);
+        childrenArr.forEach((child) => (child.style.display = 'none'));
     }
 }
 
-for (let i = 0; i < localStorage.length; i++) {
-    const getLocalStorage = localStorage.getItem(localStorage.key(i))
+for (let x = 0; x < localStorage.length; x++) {
+    const getLocalStorage = localStorage.getItem(localStorage.key(x));
 
     // Display every key's value to the watchlist
     if (watchlist) {
-        watchlist.innerHTML += `<div class="card">${getLocalStorage}</div>`
-
+        watchlist.innerHTML += `<div class="card">${getLocalStorage}</div>`;
         // Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {
-            button.style.display = 'none'
+            button.style.display = 'none';
         }
 
         // Display the 'remove from watchlist' button
         for (let button of removeWatchlistBtn) {
-            button.style.display = 'inline'
+            button.style.display = 'inline';
         }
     }
 }
