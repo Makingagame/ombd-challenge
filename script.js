@@ -1,20 +1,17 @@
 /*  ------------------------------------------------------------------------------------------ 
                                     GLOBAL DECLARATIONS
     ------------------------------------------------------------------------------------------ */
-
 const apikey = "9f8a2da0";
 const moviesList = document.getElementById('moviesList');
 const movieDetails = document.getElementById('movieDetails');
 const searchMovie = document.getElementById("searchMovie");
+const watchlist = document.getElementById('watchlist');
 const type = document.getElementsByName("type");
 const card = document.getElementsByName("card");
-
-const watchlist = document.getElementById('watchlist');
 const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn');
 const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn');
 const movieKey = document.getElementsByClassName('movie-key');
 const localStorageKeys = Object.keys(localStorage);
-let selectedImdbID = "";
 let val = "";
 let idArray = [];
 let i = 0;
@@ -23,14 +20,12 @@ let i = 0;
 /*  ------------------------------------------------------------------------------------------ 
                                         INDEX.HTML
     ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
-
 if(!watchlist){
     val = type[1].value;
     let season = document.getElementById('season').value;
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER FUNCTION
     ------------------------------------------------------------------------------------------ */
-
     window.onload = function(){
         slideOne();
         slideTwo();
@@ -45,31 +40,31 @@ if(!watchlist){
     let sliderMinValue = document.getElementById("slider-1").min;
     let sliderMaxValue = document.getElementById("slider-1").max;
     let sliderRange = sliderMaxValue - sliderMinValue;
-
+    //Set first slider's value
     function slideOne(){
         if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
             sliderOne.value = parseInt(sliderTwo.value) - minGap;
         }
         displayValOne.textContent = sliderOne.value;
-        fillColor();
+        fillColour();
     }
+    //Set second slider's value
     function slideTwo(){
         if(parseInt(sliderTwo.value) - parseInt(sliderOne.value) <= minGap){
             sliderTwo.value = parseInt(sliderOne.value) + minGap;
         }
         displayValTwo.textContent = sliderTwo.value;
-        fillColor();
+        fillColour();
     }
-    function fillColor(){
+    //Fill in the colour between both sliders
+    function fillColour(){
         percent1 = (sliderOne.value-sliderMinValue) / sliderRange * 100;
         percent2 = (sliderTwo.value-sliderMinValue) / sliderRange * 100;
         sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , grey ${percent1}% , grey ${percent2}%, #dadae5 ${percent2}%)`;
     }
-
 /*  ------------------------------------------------------------------------------------------ 
                                     RADIO BUTTON FUNCTION
     ------------------------------------------------------------------------------------------ */
-
     function radioButton(){
         
         if(type[0].checked)
@@ -91,45 +86,36 @@ if(!watchlist){
         //When radio button is pressed, search for movies
         searchMovies();
     }
-
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER ONMOUSEUP FUNCTION
     ------------------------------------------------------------------------------------------ */
-    
-    //Search is performed after slider button is released, not everytime value changes
+    //Search is performed after slider button is released
     function sliderClicked(){
         searchMovies();
     };
-
 /*  ------------------------------------------------------------------------------------------ 
                                     TEXT BOX (SEASON) FUNCTION
     ------------------------------------------------------------------------------------------ */
-
+    //In the season text box, on keyup (user releases a keyboard key), set the season value and set type to 'Episodes'
     function changeSeason(){
         season = document.getElementById('season').value;
         type[3].checked = true;
         searchMovies();
     }
-
-
 /*  ------------------------------------------------------------------------------------------ 
                                     EXPAND DETAILS FUNCTION
     ------------------------------------------------------------------------------------------ */
-
     //Cannot call main function from onclick of Movie Title, so this function is called instead
     function expandDetails(i){
         expandDetailsFunction(i);
     }
-
 /*  ------------------------------------------------------------------------------------------ 
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
-
-    //In the search bar, on keyup (user releases a keyboard key) search for movies
+    //In the search bar, on keyup (user releases a keyboard key), search for movies
     searchMovie.addEventListener("keyup", e => { 
         searchMovies();
     })
-
 
     async function searchMovies(){
         //Hide default elements
@@ -137,11 +123,10 @@ if(!watchlist){
             let children = moviesList.children;
             let childrenArr = Array.prototype.slice.call(children);
             childrenArr.forEach((child) => child.remove());
-            //Empty array used for displaying further details of movies
+            //Empty array used for storing id's of every currently displayed movie
             idArray.splice(0, idArray.length);
             i = 0;
         }
-        
 
         //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
         if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
@@ -154,7 +139,7 @@ if(!watchlist){
 
             let movies = data.Search;
 
-            // Get and display search results
+            //Get and display search results
             movies.forEach(async (movie) => {
 
                 url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
@@ -191,8 +176,6 @@ if(!watchlist){
             })
         }
 
-
-
         //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
         if (type[0].checked == true || type[3].checked == true) {
             let searchMovie = $("#searchMovie").val();
@@ -202,7 +185,7 @@ if(!watchlist){
             
             let movies = data.Episodes;
             
-            // Get and display search results
+            //Get and display search results
             movies.forEach(async (movie) => {
 
                 url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
@@ -240,7 +223,6 @@ if(!watchlist){
         }
     }
 
-
     //Display selected movie on right side of window
     async function expandDetailsFunction(i){
 
@@ -252,27 +234,37 @@ if(!watchlist){
         const expandMovieIDkey = moviesDetailsData.imdbID + 'expandKey';
         const watchlistBtnKey = moviesDetailsData.imdbID + 'watchlistBtn';
         const removeBtnKey = moviesDetailsData.imdbID + 'removeBtn';
+
+        /*Need to finish Ratings section in card below - ensure you only display ratings if they exist, 
+        currently there is an error if no imdb rating exists*/
         movieDetails.innerHTML = 
         `
-        <div class="cards">
-            <div class="card" id=${expandMovieID}>
+        <div>
+            <div class="detailsCard" id=${expandMovieID}>
                 <span id=${expandMovieIDkey} class="hide movie-key">${expandMovieIDkey}</span>
-                <img src=${moviesDetailsData.Poster} class="card-poster" />
+                <img src=${moviesDetailsData.Poster} class="details-card-poster" />
 
-                <div class="card-header">
-                    <h2 class="card-title">${moviesDetailsData.Title}</h2>
-                    <img src="images/star-icon.svg" class="star-icon" />
-                    <span class="card-rating">${moviesDetailsData.imdbRating}</span>
+                <div class="details-card-header">
+                    <h1 class="card-title">${moviesDetailsData.Title}</h1>
                 </div>
                 
-                <div class="card-meta">
-                    <span class="card-runtime">${moviesDetailsData.Runtime}</span>
+                <div class="details-card-meta">
+                    <span>${moviesDetailsData.Rated}</span>
+                    <span class="details-card-runtime">${moviesDetailsData.Year}</span>
                     <span>${moviesDetailsData.Genre}</span>
-
-                    <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+                    <span class="details-card-runtime">${moviesDetailsData.Runtime}</span>
+                    <button class="card-btn card-watchlist details-watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
                     <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
                 </div>
+                <div>
+                    <span>${moviesDetailsData.Actors}</span>
+                </div>
+            </div>
+            <div class="detailsCard">
                 <p class="card-plot">${completePlot}</p>
+            </div>
+            <div class="detailsCard">
+                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</p></br>${moviesDetailsData.Ratings[0].Source}
             </div>
         </div>
     `;
@@ -312,21 +304,21 @@ function addToWatchlist(expandMovieIDkey, expandMovieID, watchlistBtnKey, remove
     removeBtnKey.style.display = 'inline';
 }
 
-function removeFromWatchlist(movieIDkey, removeBtnKey, watchlistBtnKey, removeBtnKey) {
+function removeFromWatchlist(expandMovieIDkey, removeBtnKey, watchlistBtnKey, removeBtnKey) {
 
-    localStorage.removeItem(movieIDkey.innerHTML);
-    // Get parent element (the movie card div) and remove it
+    localStorage.removeItem(expandMovieIDkey.innerHTML);
+    //Get parent element (the movie card div) and remove it
     if (watchlist) {
-        localStorage.removeItem(movieIDkey.innerHTML);
+        localStorage.removeItem(expandMovieIDkey.innerHTML);
 
-        const parentEl = document.getElementById(movieIDkey.innerHTML).parentElement;
+        const parentEl = document.getElementById(expandMovieIDkey.innerHTML).parentElement;
         parentEl.remove();
     }
 
     watchlistBtnKey.style.display = 'inline';
     removeBtnKey.style.display = 'none';
 
-    // Display default elements if local storage empty
+    //Display default elements if local storage empty
     if (watchlist && localStorage.length === 0) {
         if (watchlist.children) {
             const children = watchlist.children;
@@ -336,8 +328,7 @@ function removeFromWatchlist(movieIDkey, removeBtnKey, watchlistBtnKey, removeBt
     }
 }
 
-
-// Hide default elements if data is in local storage
+//Hide default elements if data is in local storage
 if (watchlist && localStorage.length > 0) {
     if (watchlist.children) {
         const children = watchlist.children;
@@ -349,15 +340,15 @@ if (watchlist && localStorage.length > 0) {
 for (let x = 0; x < localStorage.length; x++) {
     const getLocalStorage = localStorage.getItem(localStorage.key(x));
 
-    // Display every key's value to the watchlist
+    //Display every key's value to the watchlist
     if (watchlist) {
         watchlist.innerHTML += `<div class="card">${getLocalStorage}</div>`;
-        // Hide the 'add to watchlist' button
+        //Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {
             button.style.display = 'none';
         }
 
-        // Display the 'remove from watchlist' button
+        //Display the 'remove from watchlist' button
         for (let button of removeWatchlistBtn) {
             button.style.display = 'inline';
         }

@@ -5,13 +5,6 @@
   box-sizing: border-box;
 }
 
-
-button {
-  background: white;
-  color: #374151;
-  -webkit-appearance: none;
-}
-
 .hide {
   display: none;
 }
@@ -19,7 +12,6 @@ button {
 li {
   list-style-type: none;
 }
-
 
 .listblock ul li a {
   padding: 5px 30px 5px 10px;
@@ -29,8 +21,6 @@ li {
 .listblock ul li a:hover {
   background: transparent url('../img/basket.png') no-repeat 3px 170px;
 }
-
-
 
 /* ----------Header---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
@@ -99,7 +89,6 @@ header h1 {
   justify-content: space-between;
 }
 
-
 /* Left Navbar (includes Search Bar filter */
 .left-navbar {
   float: left;
@@ -113,7 +102,6 @@ header h1 {
   font-size: 40px !important;
   color: white;
 }
-
 
 .filter-search-bar {
   float: left;
@@ -129,8 +117,6 @@ header h1 {
   margin-left: 25px;
 }
 
-
-
 /* Right Navbar (includes Year Range Slider filter and Movie Type Radio Button filter */
 .right-navbar {
   float: right;
@@ -141,7 +127,6 @@ header h1 {
   color: white;
 }
 
-
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Navbar (Left and Right sections included)---------- */
 
@@ -150,12 +135,9 @@ header h1 {
 /* ----------Year Range Slider filter---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
-
 .filter-slider{
   margin-left: 100px;
 }
-
-
 
 input[type="range"]{
   -webkit-appearance: none;
@@ -177,15 +159,12 @@ input[type="range"]{
   border-radius: 5px;
 }
 
-
 .filter-label{
     width: 15%;
     padding: 10px 0;
     color: #ffffff;
     margin-left: 100px;
 }
-
-
 
 /* Slider - Webkit CSS (Chrome, Safari, etc.) */
 
@@ -210,7 +189,6 @@ input[type="range"]:active::-webkit-slider-thumb{
   border: 3px solid #ffffff;
 }
 
-
 /* Slider - Mozilla Firefox CSS */
 
 input[type="range"]::-moz-range-track{
@@ -227,7 +205,6 @@ input[type="range"]::-moz-range-thumb{
   background-color: #3264fe;
   pointer-events: auto;
 }
-
 
 /* Slider - Internet Explorer CSS */
 
@@ -249,9 +226,7 @@ input[type="range"]::-ms-thumb{
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Year Range Slider filter---------- */
 
-
 /*Movie Type Radio Button filter*/
-
 .filter-other {
   float: right;
   margin-left: 50px;
@@ -267,12 +242,6 @@ input[type="number"]{
   position: absolute;
 
 }
-
-
-
-
-
-
 
 /* ----------Main Body/Content---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
@@ -299,96 +268,18 @@ input[type="number"]{
   height: 50vh;
 }
 
-
-
-
-
-
 .search-details {
   float: right;
   width: 60%;
 }
 
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Main Body/Content---------- */
 
 
 
-
-/*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH
-
-.cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin: 37px auto 0;
-  width: calc(280px * 4);
-}
-
-.card {
-  box-shadow: 0 3px 10px 0 #aaa;
-  cursor: pointer;
-  height: 280px;
-  position: relative;
-  width: 243px;
-}
-
-.card h2 {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.card.visited {
-  box-shadow: 0 3px 10px 2px #444;
-}
-
-@media (max-width: 1100px) {
-  .cards {
-    grid-template-columns: 1fr 1fr;
-    width: calc(280px * 2);
-  }
-  .card {
-    margin: 0 auto 2rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .cards {
-    display: block;
-    width: 100vw;
-  }
-  .card {
-    margin: 0 auto 2rem;
-  }
-}
-
-
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* ----------Watchlist---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
 #watchlist-default-display-container {
   align-items: center;
@@ -429,6 +320,36 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
   }
 }
 
+.detailsCard {
+  max-height: auto;
+  max-width: 800px;
+  padding-top: 25px;
+  display: grid;
+  column-gap: 1.5em;
+  border-bottom: 1px solid #dfdddd;
+  padding: 1em;
+  grid-auto-rows: 1fr 0.5fr 1fr 1fr;
+  grid-template-areas:
+      'poster header'
+      'poster meta'
+      'poster plot'
+      'poster plot';
+}
+
+@media (max-width: 650px) {
+  .detailsCard {
+      gap: 1em;
+      grid-template-columns: 40% 50%;
+      grid-template-columns: 1fr 2fr;
+      grid-auto-rows: 0.75fr 0.5fr 0.9fr;
+
+      grid-template-areas:
+          'poster header'
+          'poster meta'
+          'plot plot';
+  }
+}
+
 .card-poster {
   grid-area: poster;
   border-radius: 2px;
@@ -444,6 +365,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
   margin-bottom: 0.5em;
 }
 
+.details-card-poster {
+  grid-area: poster;
+  border-radius: 2px;
+  height: 350px;
+  max-width: 300px;
+  object-fit: cover;
+  width: auto;
+}
+
+.details-card-header {
+  grid-area: header;
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5em;
+}
+/*--------------------------------------------------------------------------------------------------------------------------------*/
 .star-icon {
   margin-right: 0.5em;
 }
@@ -466,7 +403,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
       margin-top: -2px;
   }
 }
-
+/*--------------------------------------------------------------------------------------------------------------------------------*/
 .card-rating {
   font-size: clamp(0.85rem, 3vw, 1rem);
 }
@@ -480,6 +417,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
 @media (max-width: 650px) {
   .remove-watchlist-btn,
   .watchlist-btn {
+      float:right;
       text-align: left;
       width: 100%;
   }
@@ -519,8 +457,29 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
   .card-runtime {
       margin-right: 1em;
   }
+}
 
-  #watchlistBtn {
+.details-card-meta {
+  grid-area: meta;
+
+  align-items: center;
+  color: #111827;
+  display: flex;
+  font-size: clamp(0.75rem, 4vw, 0.9rem);
+  justify-content: space-between;
+}
+
+@media (max-width: 650px) {
+  .details-card-meta {
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+
+  .details-card-runtime {
+      margin-right: 1em;
+  }
+
+  #details-watchlistBtn {
       width: 100%;
   }
 }
@@ -568,6 +527,5 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH*/
   }
 }
 
-
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-/* ----------Main Body/Content---------- */
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Watchlist---------- */
