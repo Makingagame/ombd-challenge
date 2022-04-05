@@ -1,0 +1,17 @@
+Make whole movie card clickable instead of just the title
+Make whole card highlight when clicked
+Add more accessibility features (alt text for images, links etc.)
+Add movie slider so you can scroll through the searched movies on the left (or make all elements absolute except left body)
+Format radio button section correctly
+Watchlist.html formatting is currently terrifying (movie posters overlap, not all information is displayed)
+Add 'Results' text
+Ratings section in detailsCard
+
+
+ISSUE: When typing quickly, multiple search functions can be triggered at the same time, which results in cloned results
+(two of the same movie will appear in search list) - need to add some sort of "wait" element, even if it's just for 200ms
+
+ISSUE: Both add and remove watchlist buttons appear when on the Watchlist.html page (not sure why yet)
+
+
+
