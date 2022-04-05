@@ -1,0 +1,43 @@
+Used Google API Material Icons to get the magnifying glass icon - credit is not required.
+
+Decsision made to use Google API jquery (so I won't have to download and run it on my end) - this could help with queriying JSON data.
+
+Will have a Navbar Div that is split in two.
+	* Left side for the search bar
+	* Right side for the other filters
+	*(Need to update this to three columns)
+
+Will have two columns for main body content, as resembling wireframe
+Will use cards in ul/li elements (so they can be clicked) for searched movie list
+
+To search, an onkeyup event will trigger an API call (an API call every key pressed)
+Also allow any filter button being pressed to trigger an API call
+
+After considering how to retain watchlist information between sessions, explored whether React.js should be used
+Decision made against React.js, javascript is fine on it's own.
+
+Downloaded node.js 12.13.0
+Downloaded nvm and gitbash
+
+Followed a few different tutorials for others' implementations of omdb api movie search apps
+
+Project most closely followed/code used: https://www.youtube.com/watch?v=KUUSwCAUF0k
+
+Built HTML filters, slider, radiot buttons, built basic API Query
+
+Multi-thumb sliders are complicated!! Found the jQuery UI range slider, but had problems making it work (not formatted correctly).
+Chose another slider import which functioned fine - but did not look the same as the wireframe.
+Settled on currently used slider, found here - https://www.youtube.com/watch?v=DfSYmk_6vk8&ab_channel=CodingArtist
+
+Updated API Query to include filters and return more than one movie
+
+Tweaked the slider, set beginning year and end year to as they are in wireframe. 
+Estimated intended beginning year would be 1930 and end year would be 2030 (application is VERY unlikely to remain un-updated for a decade)
+
+Added a text box for Season No. so that episodes could be searched properly
+
+Used new async "fetch" function. Added cards with html, css and javascript.
+Overhauled javascript, added cards html and css, added watchlist.
+
+Fixed a number of bugs, overall formatting work and tweaks.
+Created Expand Details section (clicking on movie in the left section brings it up in more detail on the right)
