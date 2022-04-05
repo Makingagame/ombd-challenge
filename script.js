@@ -264,7 +264,7 @@ if(!watchlist){
                 <p class="card-plot">${completePlot}</p>
             </div>
             <div class="detailsCard">
-                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</p></br>${moviesDetailsData.Ratings[0].Source}
+                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
             </div>
         </div>
     `;
