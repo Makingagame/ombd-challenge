@@ -127,6 +127,15 @@ if(!watchlist){
             idArray.splice(0, idArray.length);
             i = 0;
         }
+        
+        let results = 0;
+        moviesList.innerHTML +=
+        `
+        <div>
+            <span> RESULTS</span>
+        
+        </div>
+        `
 
         //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
         if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
@@ -139,6 +148,8 @@ if(!watchlist){
 
             let movies = data.Search;
 
+
+            
             //Get and display search results
             movies.forEach(async (movie) => {
 
@@ -260,10 +271,12 @@ if(!watchlist){
                     <span>${moviesDetailsData.Actors}</span>
                 </div>
             </div>
-            <div class="detailsCard">
+            <div class="detailsCardPlot">
                 <p class="card-plot">${completePlot}</p>
             </div>
-            <div class="detailsCard">
+            <div class="detailsCardRating">
+                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
+                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
                 <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
             </div>
         </div>
@@ -343,6 +356,7 @@ for (let x = 0; x < localStorage.length; x++) {
     //Display every key's value to the watchlist
     if (watchlist) {
         watchlist.innerHTML += `<div class="detailsCard">${getLocalStorage}</div>`;
+        displayWatchlistOrRemoveBtn();
         //Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {
             button.style.display = 'none';

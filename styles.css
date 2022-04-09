@@ -350,6 +350,18 @@ input[type="number"]{
   }
 }
 
+.detailsCardPlot {
+  border-bottom: 1px solid #dfdddd;
+  padding: 1em;
+  text-col: black;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
+
 .card-poster {
   grid-area: poster;
   border-radius: 2px;
@@ -397,22 +409,15 @@ input[type="number"]{
   }
 
   .card-title,
-  .star-icon,
-  .card-rating {
+  .star-icon{
       align-self: start;
   }
 
   .card-title {
       margin-top: -6px;
   }
-  .card-rating {
-      margin-top: -2px;
-  }
 }
 /*--------------------------------------------------------------------------------------------------------------------------------*/
-.card-rating {
-  font-size: clamp(0.85rem, 3vw, 1rem);
-}
 
 .card-btn {
   border: none;
