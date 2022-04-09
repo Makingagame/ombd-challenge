@@ -256,7 +256,7 @@ if(!watchlist){
                     <button class="card-btn card-watchlist details-watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
                     <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
                 </div>
-                <div>
+                <div class="details-card-actors">
                     <span>${moviesDetailsData.Actors}</span>
                 </div>
             </div>
@@ -342,7 +342,7 @@ for (let x = 0; x < localStorage.length; x++) {
 
     //Display every key's value to the watchlist
     if (watchlist) {
-        watchlist.innerHTML += `<div class="card">${getLocalStorage}</div>`;
+        watchlist.innerHTML += `<div class="detailsCard">${getLocalStorage}</div>`;
         //Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {
             button.style.display = 'none';

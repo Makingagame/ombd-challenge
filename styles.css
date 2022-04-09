@@ -380,6 +380,12 @@ input[type="number"]{
   display: flex;
   margin-bottom: 0.5em;
 }
+
+.details-card-actors {
+  align-items: center;
+  display: flex;
+  margin-bottom: 0.5em;
+}
 /*--------------------------------------------------------------------------------------------------------------------------------*/
 .star-icon {
   margin-right: 0.5em;
