@@ -4,12 +4,33 @@ Add more accessibility features (alt text for images, links etc.)
 Add movie slider so you can scroll through the searched movies on the left (or make all elements absolute except left body)
 Format radio button section correctly
 Watchlist.html doesn't display all needed information
+
+
+
 Add 'Results' text
+HOW GET MORE THAN 10
+
 Ratings section in detailsCard
+
+Consolidate these: (((
+
 Add "Too many results..." message 
+
+Add "No results..." message
+IF ARRAY IS EMPTY SEND THIS MESSAGE
+
+)))
+
 
 ISSUE: When typing quickly, multiple search functions can be triggered at the same time, which results in cloned results
 (two of the same movie will appear in search list) - need to add some sort of "wait" element, even if it's just for 200ms
+^^^ CAN PRESS ENTER INSTEAD
 
 
+
+WHAT'S THE FONT
+COLOURS OKAY
+
+
+Slider Okay?
 

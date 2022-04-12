@@ -246,7 +246,8 @@ input[type="number"]{
 /* ----------Main Body/Content---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
-.search-results {
+/*TODO: Clean out redundancy in below two classes*/
+.search-results-bar {
   float: left;
   width: 40%;
   align-items: center;
@@ -254,6 +255,20 @@ input[type="number"]{
   flex-direction: column;
   justify-content: center;
   border-right:grey solid 1px;
+}
+
+.search-results {
+  float: left;
+  align-items: center;
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#resultNo {
+  padding-top: 40px;
+  padding-bottom: 50px;
+  font-size: large;
 }
 
 .movie-icon {
@@ -289,6 +304,7 @@ input[type="number"]{
   height: 40vh;
 }
 
+/*TODO: Change bottom border */
 .card {
   max-width: 400px;
   max-height: 175px;
@@ -353,7 +369,9 @@ input[type="number"]{
 .detailsCardPlot {
   border-bottom: 1px solid #dfdddd;
   padding: 1em;
-  text-col: black;
+  grid-area: plot;
+  font-size: 1em;
+  line-height: 1.5;
 }
 
 .center {
@@ -511,20 +529,6 @@ input[type="number"]{
 @media (max-width: 650px) {
   .card-title {
       margin-right: 0.29em;
-  }
-}
-
-.card-plot {
-  grid-area: plot;
-
-  color: #6b7280;
-  font-size: 1em;
-  line-height: 1.5;
-}
-
-@media (max-width: 650px) {
-  .card-plot {
-      margin-top: 0;
   }
 }
 

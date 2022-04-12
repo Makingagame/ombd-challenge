@@ -75,21 +75,22 @@
               </label>
               <br>
               <label class="filter-season">
-                Season No.<input type="number" id="season" value="1" onkeyup="changeSeason();">
+                Season No.<input type="number" id="season" value="1" focusout="changeSeason();">
               </label>
             </div>
           </div>  
         </form>
-      
       </div>
     </div>
-
-    <div class="search-results" id="moviesList">
-      <div id="moviesList-default-container">
-        <img src="images/movie-icon.svg" alt="Search movie list to start exploring movies."
-            class="movie-icon">
-            <p>Search a title above</p>
-      </div>
+    <div class="search-results-bar">
+      <span id="resultNo"></span>
+      <div class="search-results" id="moviesList">
+        <div id="moviesList-default-container">
+          <img src="images/movie-icon.svg" alt="Search movie list to start exploring movies."
+              class="movie-icon">
+              <p>Search a title above</p>
+        </div>
+    </div>
     </div>
 
     </div>

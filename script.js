@@ -2,7 +2,9 @@
                                     GLOBAL DECLARATIONS
     ------------------------------------------------------------------------------------------ */
 const apikey = "9f8a2da0";
+const season = document.getElementById('season');
 const moviesList = document.getElementById('moviesList');
+const resultNo = document.getElementById('resultNo');
 const movieDetails = document.getElementById('movieDetails');
 const searchMovie = document.getElementById("searchMovie");
 const watchlist = document.getElementById('watchlist');
@@ -12,6 +14,9 @@ const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn
 const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn');
 const movieKey = document.getElementsByClassName('movie-key');
 const localStorageKeys = Object.keys(localStorage);
+let searchResultNo = 0;
+let noMovies = true;
+let noEpisodes = true;
 let val = "";
 let idArray = [];
 let i = 0;
@@ -22,7 +27,7 @@ let i = 0;
     ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 if(!watchlist){
     val = type[1].value;
-    let season = document.getElementById('season').value;
+    let seasonValue = document.getElementById('season').value;
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER FUNCTION
     ------------------------------------------------------------------------------------------ */
@@ -84,24 +89,24 @@ if(!watchlist){
         }
 
         //When radio button is pressed, search for movies
-        searchMovies();
+        //searchMovies();
     }
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER ONMOUSEUP FUNCTION
     ------------------------------------------------------------------------------------------ */
     //Search is performed after slider button is released
     function sliderClicked(){
-        searchMovies();
+        //searchMovies();
     };
 /*  ------------------------------------------------------------------------------------------ 
                                     TEXT BOX (SEASON) FUNCTION
     ------------------------------------------------------------------------------------------ */
-    //In the season text box, on keyup (user releases a keyboard key), set the season value and set type to 'Episodes'
-    function changeSeason(){
-        season = document.getElementById('season').value;
+    //In the season text box, on focusout (user changes focus from search bar), set the season value and set type to 'Episodes'
+    season.addEventListener("focusout", e => {
+        seasonValue = document.getElementById('season').value;
         type[3].checked = true;
         searchMovies();
-    }
+    })
 /*  ------------------------------------------------------------------------------------------ 
                                     EXPAND DETAILS FUNCTION
     ------------------------------------------------------------------------------------------ */
@@ -112,12 +117,15 @@ if(!watchlist){
 /*  ------------------------------------------------------------------------------------------ 
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
-    //In the search bar, on keyup (user releases a keyboard key), search for movies
-    searchMovie.addEventListener("keyup", e => { 
+    //In the search bar, on focusout (user changes focus from search bar), search for movies
+    searchMovie.addEventListener("focusout", e => { 
         searchMovies();
     })
-
+    
     async function searchMovies(){
+
+        searchResultNo = 0;
+        
         //Hide default elements
         if (moviesList.children) {
             let children = moviesList.children;
@@ -128,28 +136,54 @@ if(!watchlist){
             i = 0;
         }
         
-        let results = 0;
-        moviesList.innerHTML +=
-        `
-        <div>
-            <span> RESULTS</span>
-        
-        </div>
-        `
-
         //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
         if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
-            let searchMovie = $("#searchMovie").val();
+            await searchMoviesOrSeries();
+        }
 
-            let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val;
+        //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
+        if (type[0].checked == true || type[3].checked == true) {
+            await searchEpisodes();
+        }
 
-            let res = await fetch(url);
-            let data = await res.json();
+        console.log("CHECK: " + noMovies + noEpisodes)
+        //If there are no movies or episodes to display, display the below text instead
+        if (noMovies && noEpisodes) {
+            moviesList.innerHTML =
+                `
+                <p>No movies were found... please type something different to try again</p>
+                `;
+        }
 
-            let movies = data.Search;
 
+        //Add the number of results to the top of the movie display bar
+        resultNo.innerHTML =
+        `
+            <span>${searchResultNo} RESULTS</span>
+        `;
+        console.log(searchResultNo);
 
-            
+    }
+
+    //Search for Movies, Series or any kind of film other than episodes from a series 
+    async function searchMoviesOrSeries() {
+        let searchMovie = $("#searchMovie").val();
+
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val;
+
+        let moviesRes = await fetch(url);
+        let moviesData = await moviesRes.json();
+
+        let movies = moviesData.Search;
+
+        if (!movies) {
+            noMovies = true;
+            console.log("NO MOVIES");
+        } else {
+            noMovies = false;
+            searchResultNo += movies.length;
+            console.log("movies function"+searchResultNo);
+
             //Get and display search results
             movies.forEach(async (movie) => {
 
@@ -186,18 +220,27 @@ if(!watchlist){
                 }
             })
         }
+    }
 
-        //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
-        if (type[0].checked == true || type[3].checked == true) {
-            let searchMovie = $("#searchMovie").val();
+    //Search for Episodes (different for above as array structure returned from API Query is different)
+    async function searchEpisodes() {
+        let searchMovie = $("#searchMovie").val();
 
-            let res = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+season);
-            let data = await res.json();
-            
-            let movies = data.Episodes;
-            
+        let episodesRes = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue);
+        let episodesData = await episodesRes.json();
+        
+        let episodes = episodesData.Episodes;
+
+        if (!episodes) {
+            noEpisodes = true;
+            console.log("NO EPISODES");
+        } else {
+            noEpisodes = false;
+            searchResultNo += episodes.length;
+            console.log("episodes function"+searchResultNo);
+
             //Get and display search results
-            movies.forEach(async (movie) => {
+            episodes.forEach(async (movie) => {
 
                 url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
 
@@ -272,12 +315,14 @@ if(!watchlist){
                 </div>
             </div>
             <div class="detailsCardPlot">
-                <p class="card-plot">${completePlot}</p>
+                <p>${completePlot}</p>
             </div>
             <div class="detailsCardRating">
                 <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
+                <!-- Need to fill below two lines with proper ratings data
                 <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
                 <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
+                -->
             </div>
         </div>
     `;
