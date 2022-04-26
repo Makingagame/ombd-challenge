@@ -41,3 +41,5 @@ Overhauled javascript, added cards html and css, added watchlist.
 
 Fixed a number of bugs, overall formatting work and tweaks.
 Created Expand Details section (clicking on movie in the left section brings it up in more detail on the right)
+
+Used debouncing on function to stop search function issue

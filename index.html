@@ -15,7 +15,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 
 <body>
 
@@ -37,9 +39,56 @@
             <input class="filter-search-bar" type="text" id="searchMovie" placeholder="Type here...">
           </div>
           
-          <div class="right-navbar">
+          <div class="right-navbar-row">
+            <div class="right-navbar-column1">
+            <!-- Year Range Slider Filter -->
+              <div class="filter-slider">
+                <div class="values">
+                  YEAR &nbsp; &nbsp; &nbsp; &nbsp;
+                  <span id="range1">
+                    0
+                  </span>
+                  <span> &dash; </span>
+                  <span id="range2">
+                    100
+                  </span>
+                </div>
+                <div class="container">
+                  <div class="slider-track"></div>
+                  <input type="range" min="1930" max="2030" value="1970" id="slider-1" oninput="slideOne()" onmouseup="sliderClicked()">
+                  <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo()" onmouseup="sliderClicked()">
+                </div>
+              </div>
+            </div>
 
-          <!-- Year Range Slider Filter -->
+            <div class="right-navbar-column2">
+              <!-- [Movie Type Radio Buttons] and [Season Text Box] Filters -->
+              <div class="filter-other">
+                <label for = "type">TYPE</label> <br>
+                <label class="filter-radio">
+                  <input type="radio" name="type" value="" onclick="radioButton();">Any
+                </label>
+                <label class="filter-radio">
+                  <input type="radio" name="type" value="movie" onclick="radioButton();"checked>Movies
+                </label>
+                <label class="filter-radio">
+                  <input type="radio" name="type" value="series" onclick="radioButton();">Series
+                </label>
+                <label class="filter-radio">
+                  <input type="radio" name="type" value="episodes" onclick="radioButton();">Episodes
+                </label>
+                <br>
+                <label class="filter-season">
+                  Season No.<input type="number" id="season" value="1" focusout="changeSeason();">
+                </label>
+              </div>
+            </div>
+          </div>
+          
+<!--
+          <div class="middle-navbar">
+
+          <!-- Year Range Slider Filter 
             <div class="filter-slider">
               <div class="values">
                 YEAR &nbsp; &nbsp; &nbsp; &nbsp;
@@ -57,8 +106,10 @@
                 <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo()" onmouseup="sliderClicked()">
               </div>
             </div>
+          </div>
 
-            <!-- [Movie Type Radio Buttons] and [Season Text Box] Filters -->
+          <div class="right-navbar">
+            <!-- [Movie Type Radio Buttons] and [Season Text Box] Filters 
             <div class="filter-other">
               <label for = "type">TYPE</label> <br>
               <label class="filter-radio">
@@ -78,7 +129,10 @@
                 Season No.<input type="number" id="season" value="1" focusout="changeSeason();">
               </label>
             </div>
-          </div>  
+          </div>
+
+        -->
+
         </form>
       </div>
     </div>

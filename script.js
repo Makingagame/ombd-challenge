@@ -14,6 +14,8 @@ const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn
 const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn');
 const movieKey = document.getElementsByClassName('movie-key');
 const localStorageKeys = Object.keys(localStorage);
+let pageNo = 1;
+let moviesOnScreen = 0;
 let searchResultNo = 0;
 let noMovies = true;
 let noEpisodes = true;
@@ -117,15 +119,34 @@ if(!watchlist){
 /*  ------------------------------------------------------------------------------------------ 
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
-    //In the search bar, on focusout (user changes focus from search bar), search for movies
-    searchMovie.addEventListener("focusout", e => { 
-        searchMovies();
-    })
     
+    //Debounce function taken from: https://www.geeksforgeeks.org/debouncing-in-javascript/
+    const debounce = (func, delay) => {
+        let debounceTimer
+        return function() {
+            const context = this;
+            const args = arguments;
+                clearTimeout(debounceTimer)
+                    debounceTimer
+                = setTimeout(() => func.apply(context, args), delay)   
+        }
+    } 
+    
+    searchMovie.addEventListener('keyup', debounce(function() {
+        searchMovies(); 
+    }, 1000)); 
+    
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
     async function searchMovies(){
 
+        pageNo = 0;
         searchResultNo = 0;
-        
+        moviesOnScreen = 0;
+
         //Hide default elements
         if (moviesList.children) {
             let children = moviesList.children;
@@ -135,20 +156,28 @@ if(!watchlist){
             idArray.splice(0, idArray.length);
             i = 0;
         }
-        
-        //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
-        if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
-            await searchMoviesOrSeries();
-        }
+         
+        //This variable is used to check if it is the first loop or not (if it is, display the movies found (10))
+        do {
+            //Increment page number to get all results from api
+            pageNo++;
 
-        //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
-        if (type[0].checked == true || type[3].checked == true) {
-            await searchEpisodes();
-        }
+            //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
+            if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
+                await searchMoviesOrSeries();
+            }
 
-        console.log("CHECK: " + noMovies + noEpisodes)
+            //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
+            if (type[0].checked == true || type[3].checked == true) {
+                await searchEpisodes();
+            }
+            console.log(pageNo);
+            console.log("No Movies = "+noMovies)
+            console.log("No Episodes = "+noEpisodes)
+        } while (noMovies == false || noEpisodes == false);
+
         //If there are no movies or episodes to display, display the below text instead
-        if (noMovies && noEpisodes) {
+        if (searchResultNo == 0) {
             moviesList.innerHTML =
                 `
                 <p>No movies were found... please type something different to try again</p>
@@ -159,9 +188,8 @@ if(!watchlist){
         //Add the number of results to the top of the movie display bar
         resultNo.innerHTML =
         `
-            <span>${searchResultNo} RESULTS</span>
+                <span>${searchResultNo} RESULTS</span>
         `;
-        console.log(searchResultNo);
 
     }
 
@@ -169,26 +197,28 @@ if(!watchlist){
     async function searchMoviesOrSeries() {
         let searchMovie = $("#searchMovie").val();
 
-        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val;
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&tomatoes=true"+"&type="+val+"&page="+pageNo;
 
-        let moviesRes = await fetch(url);
+        let moviesRes = await fetch(url);   
         let moviesData = await moviesRes.json();
-
         let movies = moviesData.Search;
+
+        console.log(url);        
+        console.log(moviesRes);
+        console.log(moviesData);
+        console.log(movies);
+
 
         if (!movies) {
             noMovies = true;
-            console.log("NO MOVIES");
+            //Allow time for movies to be fully counted before displaying search result number
+            await sleep(400);
         } else {
             noMovies = false;
-            searchResultNo += movies.length;
-            console.log("movies function"+searchResultNo);
-
             //Get and display search results
             movies.forEach(async (movie) => {
 
                 url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
-
                 let response = await fetch(url);
                 let moviesListData = await response.json();
 
@@ -197,26 +227,32 @@ if(!watchlist){
                 idArray[i]= movieID;
                 const movieIDkey = moviesListData.imdbID + 'key';
 
+                //If all criteria is met, add to Result Counter (searchResultNo)
                 if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
-                    moviesList.innerHTML +=
-                    `
-                    <li name="card">
-                        <div class="card" id=${movieID}>
-                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                            <img src=${moviesListData.Poster} class="card-poster" />
-                            
-                            <div class="card-header">
-                                <a onclick="expandDetails(${i})" href="#">
-                                    <h2 class="card-title">${moviesListData.Title}</h2>
-                                </a>
+                    searchResultNo++;
+                    //If less than 10 movies are on screen, add another movie
+                    if (moviesOnScreen < 10) {
+                        moviesOnScreen++;
+                        moviesList.innerHTML +=
+                        `
+                        <li name="card">
+                            <div class="card" id=${movieID}>
+                                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                                <img src=${moviesListData.Poster} class="card-poster" />
+                                
+                                <div class="card-header">
+                                    <a onclick="expandDetails(${i})" href="#">
+                                        <h2 class="card-title">${moviesListData.Title}</h2>
+                                    </a>
+                                </div>
+                                
+                                <div class="card-meta">
+                                    <span class="card-year">${moviesListData.Year}</span>
+                                </div>
                             </div>
-                            
-                            <div class="card-meta">
-                                <span class="card-year">${moviesListData.Year}</span>
-                            </div>
-                        </div>
-                    </li>
-                    `;
+                        </li>
+                        `;
+                    }
                 }
             })
         }
@@ -226,19 +262,17 @@ if(!watchlist){
     async function searchEpisodes() {
         let searchMovie = $("#searchMovie").val();
 
-        let episodesRes = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue);
+        let episodesRes = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&tomatoes=true"+"&Season="+seasonValue+"&page="+pageNo);
         let episodesData = await episodesRes.json();
         
         let episodes = episodesData.Episodes;
 
         if (!episodes) {
             noEpisodes = true;
-            console.log("NO EPISODES");
+            //Allow time for movies to be fully counted before displaying search result number
+            await sleep(400);
         } else {
             noEpisodes = false;
-            searchResultNo += episodes.length;
-            console.log("episodes function"+searchResultNo);
-
             //Get and display search results
             episodes.forEach(async (movie) => {
 
@@ -252,26 +286,32 @@ if(!watchlist){
                 idArray[i]= movieID;
                 const movieIDkey = moviesListData.imdbID + 'key';
 
+                //If all criteria is met, add to Result Counter (searchResultNo)
                 if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
-                    moviesList.innerHTML +=
-                    `
-                    <li name="card">
-                        <div class="card" id=${movieID}>
-                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                            <img src=${moviesListData.Poster} class="card-poster" />
+                    searchResultNo++;
+                    //If less than 10 movies are on screen, add another movie
+                        if (moviesOnScreen < 10) {
+                        moviesOnScreen++;
+                        moviesList.innerHTML +=
+                        `
+                        <li name="card">
+                            <div class="card" id=${movieID}>
+                                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                                <img src=${moviesListData.Poster} class="card-poster" />
 
-                            <div class="card-header">
-                                <a onclick="expandDetails(${i})" href="#">
-                                    <h2 class="card-title">${moviesListData.Title}</h2>
-                                </a>
+                                <div class="card-header">
+                                    <a onclick="expandDetails(${i})" href="#">
+                                        <h2 class="card-title">${moviesListData.Title}</h2>
+                                    </a>
+                                </div>
+                                
+                                <div class="card-meta">
+                                    <span class="card-year">${moviesListData.Year}</span>
+                                </div>
                             </div>
-                            
-                            <div class="card-meta">
-                                <span class="card-year">${moviesListData.Year}</span>
-                            </div>
-                        </div>
-                    </li>
-                    `;
+                        </li>
+                        `;
+                    }
                 }
             })
         }
@@ -280,7 +320,7 @@ if(!watchlist){
     //Display selected movie on right side of window
     async function expandDetailsFunction(i){
 
-        let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]);
+        let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]+"&tomatoes=true");
         let moviesDetailsData = await response.json();
 
         const completePlot = moviesDetailsData.Plot;
@@ -318,11 +358,8 @@ if(!watchlist){
                 <p>${completePlot}</p>
             </div>
             <div class="detailsCardRating">
-                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
-                <!-- Need to fill below two lines with proper ratings data
-                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
-                <p class="card-rating">${moviesDetailsData.Ratings[0].Value}</br>${moviesDetailsData.Ratings[0].Source}</p>
-                -->
+                <p class="card-rating">${moviesDetailsData.imdbRating}</br>Internet Movies Database</p>
+                <p class="card-rating">${moviesDetailsData.Metascore}</br>Metacritic</p>
             </div>
         </div>
     `;
