@@ -1,3 +1,72 @@
+/* The radio button class */
+.filter-radio {
+  position: relative;
+  padding-left: 35px;
+  padding-right: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+/* Hide the browser's default radio button */
+.filter-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #666;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* On mouse-over, add a grey background color */
+.filter-radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.filter-radio input:checked ~ .checkmark {
+  background-color: #666;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.filter-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.filter-radio .checkmark:after {
+ 	top: 2px;
+	left: 2px;
+	width: 12px;
+	height: 12px;
+	border-radius: 80%;
+	background: white;
+}
+
+
+
+
+
+
+
+
+
 * {
   font-family: 'Calibri';
   padding: 0;
@@ -135,7 +204,7 @@ header h1 {
   padding: 10px;
   margin-top: 2.2%;
   font-size: large;
-  color: red;
+  color: white;
 }
 
 /* Clear floats after the columns */
@@ -182,6 +251,32 @@ input[type="range"]{
     padding: 10px 0;
     color: #ffffff;
     margin-left: 100px;
+}
+
+.year-column1 {
+  float: left;
+  width: 29%;
+  padding: 10px;
+  margin-top: 2.2%;
+  margin-left: 2%;
+  margin-right: 2%;
+  font-size: large;
+  color: white;
+}
+.year-column2 {
+  float: left;
+  width: 29%;
+  padding: 10px;
+  margin-top: 2.2%;
+  font-size: large;
+  color: white;
+}
+
+/* Clear floats after the columns */
+.year-row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* Slider - Webkit CSS (Chrome, Safari, etc.) */
@@ -244,20 +339,25 @@ input[type="range"]::-ms-thumb{
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Year Range Slider filter---------- */
 
-/*Movie Type Radio Button filter*/
-.filter-other {
-  float: left;
-  margin-left: 50px;
-  width: 100%;
-  font-size: large;
-  color:white; 
-}
-
 /*Season Text Box Filter*/
 input[type="number"]{
-  /*Need to add?*/
+  margin-left: 10px;
   position: absolute;
+  height: 25px;
+  width: 50px;
+  font-size: 20px;
+}
 
+.filter-season {
+  font-size: 21px;
+}
+
+#season {
+  padding-left: 1px;
+}
+
+.label-type {
+  font-size: 20px;
 }
 
 /* ----------Main Body/Content---------- */
