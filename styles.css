@@ -1,72 +1,3 @@
-/* The radio button class */
-.filter-radio {
-  position: relative;
-  padding-left: 35px;
-  padding-right: 20px;
-  cursor: pointer;
-  font-size: 20px;
-  border-radius: 50%;
-}
-
-/* Hide the browser's default radio button */
-.filter-radio input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-/* Create a custom radio button */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #666;
-  border-radius: 50%;
-  border: 2px solid white;
-}
-
-/* On mouse-over, add a grey background color */
-.filter-radio:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-/* When the radio button is checked, add a blue background */
-.filter-radio input:checked ~ .checkmark {
-  background-color: #666;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.filter-radio input:checked ~ .checkmark:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.filter-radio .checkmark:after {
- 	top: 2px;
-	left: 2px;
-	width: 12px;
-	height: 12px;
-	border-radius: 80%;
-	background: white;
-}
-
-
-
-
-
-
-
-
-
 * {
   font-family: 'Calibri';
   padding: 0;
@@ -138,8 +69,8 @@ header h1 {
 
 
 
-/* ----------Navbar (Left, Middle and Right sections included)---------- */
-/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+/* ----------Navbar (Left and two Right sections included)---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
 .navbar {
   padding: 20px;
@@ -152,13 +83,13 @@ header h1 {
 }
 
 .nav-wrapper {
-  /* Will look into whether below value should be used:
+  /* Will look into whether below value should be used: -------------------------------------------------------------------------------------------------------
   display: flex;
   */
   justify-content: space-between;
 }
 
-/* Left Navbar (includes Search Bar filter */
+/* Left Navbar (includes Search Bar filter) */
 .left-navbar {
   float: left;
   margin-top: 2.2%;
@@ -166,12 +97,14 @@ header h1 {
   width: 30%; 
 }
 
+/* Used for magnifying glass icon */
 .material-icons {
   float: left;
   font-size: 40px !important;
   color: white;
 }
 
+/* Movie search bar */
 .filter-search-bar {
   float: left;
   width: 70%;
@@ -186,8 +119,7 @@ header h1 {
   margin-left: 25px;
 }
 
-
-/* Create two equal columns that floats next to each other */
+/* Create two different columns that float next to each other */
 .right-navbar-column1 {
   float: left;
   width: 29%;
@@ -214,8 +146,8 @@ header h1 {
   clear: both;
 }
 
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-/* ----------Navbar (Left and Right sections included)---------- */
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Navbar (Left and two Right sections included)---------- */
 
 
 
@@ -290,7 +222,7 @@ input[type="range"]::-webkit-slider-thumb{
   -webkit-appearance: none;
   height: 1.3em;
   width: 1.3em;
-  background-color: lightgrey;
+  background-color: #BBB;
   cursor: pointer;
   margin-top: -6px;
   pointer-events: auto;
@@ -339,8 +271,71 @@ input[type="range"]::-ms-thumb{
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Year Range Slider filter---------- */
 
-/*Season Text Box Filter*/
+
+
+/* ----------Type Radio Button filter (Season included)---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+
+/* The radio button class */
+.filter-radio {
+  position: relative;
+  padding-left: 35px;
+  padding-right: 20px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+/* Hide the browser's default radio button */
+.filter-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #666;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+/* On mouse-over, add a grey background color */
+.filter-radio:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.filter-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.filter-radio .checkmark:after {
+ 	top: 2px;
+	left: 2px;
+	width: 12px;
+	height: 12px;
+	border-radius: 80%;
+	background: white;
+}
+
+
+/* Season Text Box */
 input[type="number"]{
+  padding-left: 1px;
   margin-left: 10px;
   position: absolute;
   height: 25px;
@@ -348,17 +343,22 @@ input[type="number"]{
   font-size: 20px;
 }
 
+/* Used for words 'Season No.' on index.html */
 .filter-season {
   font-size: 21px;
 }
 
-#season {
-  padding-left: 1px;
-}
 
+/* Used for the word 'TYPE' on index.html */
 .label-type {
   font-size: 20px;
 }
+
+
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Type Radio Button filter (Season included)---------- */
+
+
 
 /* ----------Main Body/Content---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
@@ -406,8 +406,9 @@ input[type="number"]{
   width: 60%;
 }
 
-/* SCROLL BAR */
-/* width */
+/* ----------Scroll Bar---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+/* Width */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -426,21 +427,15 @@ input[type="number"]{
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Scroll Bar---------- */
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Main Body/Content---------- */
 
 
 
-/* ----------Watchlist---------- */
+/* ----------Movie Cards-------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
-
-#watchlist-default-display-container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 40vh;
-}
 
 /*TODO: Change bottom border */
 .card {
@@ -474,7 +469,7 @@ input[type="number"]{
   }
 }
 
-.detailsCard {
+.details-card {
   max-height: auto;
   max-width: 800px;
   padding-top: 25px;
@@ -504,18 +499,12 @@ input[type="number"]{
   }
 }
 
-.detailsCardPlot {
+.details-card-plot {
   border-bottom: 1px solid #dfdddd;
   padding: 1em;
   grid-area: plot;
-  font-size: 1em;
   line-height: 1.5;
-}
-
-.center {
-  margin: auto;
-  width: 60%;
-  padding: 10px;
+  font-size: 20px;
 }
 
 .card-poster {
@@ -554,6 +543,24 @@ input[type="number"]{
   display: flex;
   margin-bottom: 0.5em;
 }
+
+/* Create two equal columns that float next to each other */
+.ratings-column {
+  float: left;
+  text-align: center;
+  padding: 10px;
+  width: 50%;
+  font-size: 24px;
+  border-left: 1px solid #dfdddd;
+}
+
+/* Clear floats after the columns */
+.ratings:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------------------*/
 .star-icon {
   margin-right: 0.5em;
@@ -602,7 +609,8 @@ input[type="number"]{
 
 .card-year {
   color:grey;
-  font-size: large;
+
+  font-size: 20px;
 }
 
 .card-meta {
@@ -611,7 +619,7 @@ input[type="number"]{
   align-items: center;
   color: #111827;
   display: flex;
-  font-size: clamp(0.75rem, 4vw, 0.9rem);
+  font-size: 20px;
   justify-content: space-between;
 }
 
@@ -623,6 +631,7 @@ input[type="number"]{
 
   .card-runtime {
       margin-right: 1em;
+      font-size: 20px;
   }
 }
 
@@ -632,7 +641,7 @@ input[type="number"]{
   align-items: center;
   color: #111827;
   display: flex;
-  font-size: clamp(0.75rem, 4vw, 0.9rem);
+  font-size: 20px;
   justify-content: space-between;
 }
 
@@ -678,6 +687,28 @@ input[type="number"]{
   .card-watchlist {
       width: 100%;
   }
+}
+
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Movie Cards---------- */
+
+
+
+/* ----------Watchlist---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+
+#watchlist-default-display-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 40vh;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
 }
 
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */

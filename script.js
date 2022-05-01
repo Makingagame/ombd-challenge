@@ -328,18 +328,27 @@ if(!watchlist){
         const expandMovieIDkey = moviesDetailsData.imdbID + 'expandKey';
         const watchlistBtnKey = moviesDetailsData.imdbID + 'watchlistBtn';
         const removeBtnKey = moviesDetailsData.imdbID + 'removeBtn';
+        let imdbRatingDenominator = "/10";
+        let metascoreRatingDenominator = "/100";
+
+        if (moviesDetailsData.imdbRating == "N/A") {
+            imdbRatingDenominator = "";
+        }
+        if (moviesDetailsData.Metascore == "N/A") {
+            metascoreRatingDenominator = "";
+        }
 
         /*Need to finish Ratings section in card below - ensure you only display ratings if they exist, 
         currently there is an error if no imdb rating exists*/
         movieDetails.innerHTML = 
         `
         <div>
-            <div class="detailsCard" id=${expandMovieID}>
+            <div class="details-card" id=${expandMovieID}>
                 <span id=${expandMovieIDkey} class="hide movie-key">${expandMovieIDkey}</span>
                 <img src=${moviesDetailsData.Poster} class="details-card-poster" />
 
                 <div class="details-card-header">
-                    <h1 class="card-title">${moviesDetailsData.Title}</h1>
+                    <h1 class="details-card-title">${moviesDetailsData.Title}</h1>
                 </div>
                 
                 <div class="details-card-meta">
@@ -354,12 +363,18 @@ if(!watchlist){
                     <span>${moviesDetailsData.Actors}</span>
                 </div>
             </div>
-            <div class="detailsCardPlot">
+            <div class="details-card-plot">
                 <p>${completePlot}</p>
             </div>
-            <div class="detailsCardRating">
-                <p class="card-rating">${moviesDetailsData.imdbRating}</br>Internet Movies Database</p>
-                <p class="card-rating">${moviesDetailsData.Metascore}</br>Metacritic</p>
+            <div class="ratings">
+                <div class="ratings-column">
+                    <p>${moviesDetailsData.imdbRating}${imdbRatingDenominator}</p>
+                    <p class="ratings-name">Internet Movies Database</p>
+                </div>
+                <div class="ratings-column">
+                    <p>${moviesDetailsData.Metascore}${metascoreRatingDenominator}</p>
+                    <p class="ratings-name">Metacritic</p>
+                </div>
             </div>
         </div>
     `;
