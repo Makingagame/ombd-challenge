@@ -1,3 +1,6 @@
+/* ----------Global---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+
 * {
   font-family: 'Calibri';
   padding: 0;
@@ -21,6 +24,11 @@ li {
 .listblock ul li a:hover {
   background: transparent url('../img/basket.png') no-repeat 3px 170px;
 }
+
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Global---------- */
+
+
 
 /* ----------Header---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
@@ -354,7 +362,6 @@ input[type="number"]{
   font-size: 20px;
 }
 
-
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Type Radio Button filter (Season included)---------- */
 
@@ -363,7 +370,6 @@ input[type="number"]{
 /* ----------Main Body/Content---------- */
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
-/*TODO: Clean out redundancy in below two classes*/
 .search-results-bar {
   float: left;
   height: 700px;
@@ -381,11 +387,10 @@ input[type="number"]{
   align-items: center;
   display: grid;
   flex-direction: column;
-  justify-content: center;
 }
 
 #resultNo {
-  padding: 60px;
+  padding: 40px 60px 40px 60px;
   font-size: large;  
 }
 
@@ -415,17 +420,17 @@ input[type="number"]{
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: transparent; 
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #BBB; 
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #BBB; 
 }
 /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 /* ----------Scroll Bar---------- */
@@ -434,25 +439,23 @@ input[type="number"]{
 
 
 
-/* ----------Movie Cards-------- */
-/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+/* ----------Search Results Cards-------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
 /*TODO: Change bottom border */
 .card {
-  max-width: 100%;
-  max-height: 175px;
+  min-width: 100%; 
   padding-top: 25px;
+  margin-left: 20px;
   display: grid;
-  column-gap: 1.5em;
-  border-bottom: 1px solid #dfdddd;
-  margin-bottom: 0.5em;
-  padding-bottom: 0.5em;
-  grid-auto-rows: 1fr 0.5fr 1fr 1fr;
+  border-bottom: 2px solid #dfdddd;
+  justify-content: start;
   grid-template-areas:
       'poster header'
       'poster meta'
       'poster plot'
       'poster plot';
+  cursor: pointer;
 }
 
 @media (max-width: 650px) {
@@ -469,6 +472,79 @@ input[type="number"]{
   }
 }
 
+/* On mouse-over, add a grey background color */
+.card:hover {
+  background-color: #ccc;
+}
+
+.card-poster {
+  grid-area: poster;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  padding-right: 20px;
+  border-radius: 2px;
+  height: 112.5px;
+  object-fit: cover;
+  width: 135px;
+}
+
+.card-header {
+  grid-area: header;
+  float: left;
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.card-year {
+  color:grey;
+
+  font-size: 20px;
+}
+
+.card-meta {
+  grid-area: meta;
+  float: left;
+  color: #111827;
+  display: flex;
+  font-size: 20px;
+  justify-content: space-between;
+}
+
+.details-card-plot {
+  grid-area: plot;
+  line-height: 1.5;
+  font-size: 20px;
+}
+
+@media (max-width: 650px) { 
+  .card-meta {
+      flex-direction: row;
+      flex-wrap: wrap;
+  }
+}
+
+.card-title {
+  display: inline-block;
+  font-size: 30px;
+  font-weight: 200;
+  margin-top: 10px;
+  margin-right: 0.5em;
+}
+
+@media (max-width: 650px) { 
+  .card-title {
+      margin-right: 0.29em;
+  }
+}
+
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Search Results Cards-------- */
+
+
+
+/* ----------Movie Details Card-------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+
 .details-card {
   max-height: auto;
   max-width: 800px;
@@ -479,10 +555,10 @@ input[type="number"]{
   padding: 1em;
   grid-auto-rows: 1fr 0.5fr 1fr 1fr;
   grid-template-areas:
-      'poster header'
-      'poster meta'
-      'poster plot'
-      'poster plot';
+      'details-poster details-header'
+      'details-poster details-meta'
+      'details-poster details-plot'
+      'details-poster details-plot';
 }
 
 @media (max-width: 650px) {
@@ -493,37 +569,22 @@ input[type="number"]{
       grid-auto-rows: 0.75fr 0.5fr 0.9fr;
 
       grid-template-areas:
-          'poster header'
-          'poster meta'
-          'plot plot';
+          'details-poster details-header'
+          'details-poster details-meta'
+          'details-plot details-plot';
   }
 }
 
 .details-card-plot {
   border-bottom: 1px solid #dfdddd;
   padding: 1em;
-  grid-area: plot;
+  grid-area: details-plot;
   line-height: 1.5;
   font-size: 20px;
 }
 
-.card-poster {
-  grid-area: poster;
-  border-radius: 2px;
-  height: 100px;
-  object-fit: cover;
-  width: 100px;
-}
-
-.card-header {
-  grid-area: header;
-  align-items: center;
-  display: flex;
-  margin-bottom: 0.5em;
-}
-
 .details-card-poster {
-  grid-area: poster;
+  grid-area: details-poster;
   border-radius: 2px;
   height: 350px;
   max-width: 300px;
@@ -532,7 +593,7 @@ input[type="number"]{
 }
 
 .details-card-header {
-  grid-area: header;
+  grid-area: details-header;
   align-items: center;
   display: flex;
   margin-bottom: 0.5em;
@@ -561,27 +622,6 @@ input[type="number"]{
   clear: both;
 }
 
-/*--------------------------------------------------------------------------------------------------------------------------------*/
-.star-icon {
-  margin-right: 0.5em;
-}
-
-@media (max-width: 650px) {
-  .card-header {
-      margin-top: 1em;
-  }
-
-  .card-title,
-  .star-icon{
-      align-self: start;
-  }
-
-  .card-title {
-      margin-top: -6px;
-  }
-}
-/*--------------------------------------------------------------------------------------------------------------------------------*/
-
 .card-btn {
   border: none;
   font-size: 1em;
@@ -607,37 +647,8 @@ input[type="number"]{
   margin-right: 2px;
 }
 
-.card-year {
-  color:grey;
-
-  font-size: 20px;
-}
-
-.card-meta {
-  grid-area: meta;
-
-  align-items: center;
-  color: #111827;
-  display: flex;
-  font-size: 20px;
-  justify-content: space-between;
-}
-
-@media (max-width: 650px) {
-  .card-meta {
-      flex-direction: row;
-      flex-wrap: wrap;
-  }
-
-  .card-runtime {
-      margin-right: 1em;
-      font-size: 20px;
-  }
-}
-
 .details-card-meta {
-  grid-area: meta;
-
+  grid-area: details-meta;
   align-items: center;
   color: #111827;
   display: flex;
@@ -660,25 +671,6 @@ input[type="number"]{
   }
 }
 
-@media (max-width: 400px) {
-  .card-runtime {
-      width: 100%;
-  }
-}
-
-.card-title {
-  display: inline-block;
-  font-size: clamp(1.25rem, 4vw, 1.5rem);
-  font-weight: 500;
-  margin-right: 0.5em;
-}
-
-@media (max-width: 650px) {
-  .card-title {
-      margin-right: 0.29em;
-  }
-}
-
 .remove-watchlist-btn {
   display: none;
 }
@@ -689,13 +681,13 @@ input[type="number"]{
   }
 }
 
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-/* ----------Movie Cards---------- */
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Movie Details Card-------- */
 
 
 
-/* ----------Watchlist---------- */
-/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+/* ----------Watchlist Page---------- */
+/* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
 #watchlist-default-display-container {
   align-items: center;
@@ -711,5 +703,5 @@ input[type="number"]{
   padding: 10px;
 }
 
-/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-/* ----------Watchlist---------- */
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* ----------Watchlist Page---------- */

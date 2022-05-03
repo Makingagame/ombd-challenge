@@ -197,17 +197,14 @@ if(!watchlist){
     async function searchMoviesOrSeries() {
         let searchMovie = $("#searchMovie").val();
 
-        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&tomatoes=true"+"&type="+val+"&page="+pageNo;
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&s="+searchMovie+"&type="+val+"&page="+pageNo;
 
         let moviesRes = await fetch(url);   
         let moviesData = await moviesRes.json();
         let movies = moviesData.Search;
 
-        console.log(url);        
-        console.log(moviesRes);
-        console.log(moviesData);
+        console.log(url);
         console.log(movies);
-
 
         if (!movies) {
             noMovies = true;
@@ -236,12 +233,12 @@ if(!watchlist){
                         moviesList.innerHTML +=
                         `
                         <li name="card">
-                            <div class="card" id=${movieID}>
+                            <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
                                 <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
                                 <img src=${moviesListData.Poster} class="card-poster" />
                                 
                                 <div class="card-header">
-                                    <a onclick="expandDetails(${i})" href="#">
+                                    <a>
                                         <h2 class="card-title">${moviesListData.Title}</h2>
                                     </a>
                                 </div>
@@ -262,10 +259,15 @@ if(!watchlist){
     async function searchEpisodes() {
         let searchMovie = $("#searchMovie").val();
 
-        let episodesRes = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&tomatoes=true"+"&Season="+seasonValue+"&page="+pageNo);
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue+"&page="+pageNo;
+
+        let episodesRes = await fetch(url);
         let episodesData = await episodesRes.json();
-        
         let episodes = episodesData.Episodes;
+
+        
+        console.log(url);
+        console.log(episodes);
 
         if (!episodes) {
             noEpisodes = true;
@@ -277,7 +279,6 @@ if(!watchlist){
             episodes.forEach(async (movie) => {
 
                 url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
-
                 let response = await fetch(url);
                 let moviesListData = await response.json();
 
@@ -295,7 +296,7 @@ if(!watchlist){
                         moviesList.innerHTML +=
                         `
                         <li name="card">
-                            <div class="card" id=${movieID}>
+                            <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
                                 <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
                                 <img src=${moviesListData.Poster} class="card-poster" />
 

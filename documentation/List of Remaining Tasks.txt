@@ -6,12 +6,6 @@ Format radio button section correctly
 Watchlist.html doesn't display all needed information
 
 
-
-Add 'Results' text
-HOW GET MORE THAN 10
-
-Ratings section in detailsCard
-
 Consolidate these: (((
 
 Add "Too many results..." message 
@@ -41,28 +35,35 @@ Slider Okay?
 
 
 
+
+
 CRITICAL TASKS:
 
-RESULTS ISSUE
-
-Two Ratings Values - CANNOT DISPLAY TOMATO METER - https://github.com/omdbapi/OMDb-API/issues/5
-
-Format Radio Button Section - session box clips into below div, buttons do not look correct
+RESULTS ISSUE:
+1. TAKES A REALLY LONG TIME WITH STAR WARS
+8. Sometimes the number is a few off
 
 
 WIREFRAME RESEMBLANCE TASKS
-Make the whole movie card clickable instead of just the title of the movie
-Make the whole card highlight when clicked
-Year Slider numbers should be moved to either side of the slider
-Configure the bottom borders of the movie cards to stretch across the whole section (make card fill entire left bar)
-Re-format entire right section of screen where movie is displayed (move and redesign 'Watchlist' button, add a border around Rating, configure other movie details according to wireframe image)  
-Format the Scroll Bar
-Format the Results Number
-Format Two Ratings Values
+2. Make the whole movie card clickable instead of just the title of the movie
+	- Make the whole card highlight when clicked
+	- Make details more centered (vertical-wise)
+
+3. Year Slider numbers should be moved to either side of the slider
+
+4. Re-format entire right section of screen where movie is displayed (move and redesign 'Watchlist' button, add a border around Rating, configure other movie details according to wireframe image)
+
+5. Format Two Ratings Values
+
+6. Shorter scrollbar handle
 
 
 NICE-TO-HAVE TASKS
-Add "Too many results..." and "No results..." messages to display on the left section of the page when appropriate
+7. Add "Too many results..." (FALSE ERROR) and "No results..." (FORMAT) messages to display on the left section of the page when appropriate. 
+
+9. ADD "SEARCHING" or "Loading Page x"
+
 Add more accessibility features (alt text for images, movie posters, buttons, etc.)
+
 Find the exact font used in the wireframe and use it in the application
 
