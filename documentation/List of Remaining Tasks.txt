@@ -41,27 +41,23 @@ CRITICAL TASKS:
 
 RESULTS ISSUE:
 1. TAKES A REALLY LONG TIME WITH STAR WARS
-8. Sometimes the number is a few off
-
+2. Sometimes the number is a few off (usually the first time only)
 
 WIREFRAME RESEMBLANCE TASKS
-2. Make the whole movie card clickable instead of just the title of the movie
-	- Make the whole card highlight when clicked
-	- Make details more centered (vertical-wise)
-
 3. Year Slider numbers should be moved to either side of the slider
 
 4. Re-format entire right section of screen where movie is displayed (move and redesign 'Watchlist' button, add a border around Rating, configure other movie details according to wireframe image)
 
-5. Format Two Ratings Values
-
-6. Shorter scrollbar handle
-
-
 NICE-TO-HAVE TASKS
-7. Add "Too many results..." (FALSE ERROR) and "No results..." (FORMAT) messages to display on the left section of the page when appropriate. 
+5. Add "Too many results..." (FALSE ERROR) and "No results..." (FORMAT) messages to display on the left section of the page when appropriate. 
 
-9. ADD "SEARCHING" or "Loading Page x"
+6. ADD "SEARCHING" or "Loading Page x"
+
+
+
+
+
+Add pages to the movie app, 10 movies per page, so you can see every movie searched
 
 Add more accessibility features (alt text for images, movie posters, buttons, etc.)
 

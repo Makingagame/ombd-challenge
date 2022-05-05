@@ -14,11 +14,10 @@ const removeWatchlistBtn = document.getElementsByClassName('remove-watchlist-btn
 const cardWatchlistBtn = document.getElementsByClassName('watchlist-btn');
 const movieKey = document.getElementsByClassName('movie-key');
 const localStorageKeys = Object.keys(localStorage);
-let pageNo = 1;
+let pageNo = 0;
 let moviesOnScreen = 0;
 let searchResultNo = 0;
 let noMovies = true;
-let noEpisodes = true;
 let val = "";
 let idArray = [];
 let i = 0;
@@ -157,24 +156,21 @@ if(!watchlist){
             i = 0;
         }
          
-        //This variable is used to check if it is the first loop or not (if it is, display the movies found (10))
-        do {
-            //Increment page number to get all results from api
-            pageNo++;
-
-            //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
-            if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
+        //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
+        if (type[0].checked == true || type[3].checked == true) {
+            await searchEpisodes();
+        }
+        
+        //Run this block if the following radio buttons are selected: "Any", "Movies", "Series" 
+        if (type[0].checked == true || type[1].checked == true || type[2].checked == true) {
+            do {
+                //Increment page number to get all results from api
+                pageNo++;
                 await searchMoviesOrSeries();
-            }
-
-            //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
-            if (type[0].checked == true || type[3].checked == true) {
-                await searchEpisodes();
-            }
-            console.log(pageNo);
-            console.log("No Movies = "+noMovies)
-            console.log("No Episodes = "+noEpisodes)
-        } while (noMovies == false || noEpisodes == false);
+                console.log(pageNo);
+                
+            } while (noMovies == false);
+        }
 
         //If there are no movies or episodes to display, display the below text instead
         if (searchResultNo == 0) {
@@ -203,120 +199,116 @@ if(!watchlist){
         let moviesData = await moviesRes.json();
         let movies = moviesData.Search;
 
-        console.log(url);
-        console.log(movies);
-
         if (!movies) {
             noMovies = true;
             //Allow time for movies to be fully counted before displaying search result number
             await sleep(400);
-        } else {
-            noMovies = false;
-            //Get and display search results
-            movies.forEach(async (movie) => {
-
-                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
-                let response = await fetch(url);
-                let moviesListData = await response.json();
-
-                const movieID = moviesListData.imdbID;
-                i++;
-                idArray[i]= movieID;
-                const movieIDkey = moviesListData.imdbID + 'key';
-
-                //If all criteria is met, add to Result Counter (searchResultNo)
-                if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
-                    searchResultNo++;
-                    //If less than 10 movies are on screen, add another movie
-                    if (moviesOnScreen < 10) {
-                        moviesOnScreen++;
-                        moviesList.innerHTML +=
-                        `
-                        <li name="card">
-                            <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
-                                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                                <img src=${moviesListData.Poster} class="card-poster" />
-                                
-                                <div class="card-header">
-                                    <a>
-                                        <h2 class="card-title">${moviesListData.Title}</h2>
-                                    </a>
-                                </div>
-                                
-                                <div class="card-meta">
-                                    <span class="card-year">${moviesListData.Year}</span>
-                                </div>
-                            </div>
-                        </li>
-                        `;
-                    }
-                }
-            })
+            return;
         }
+        noMovies = false;
+
+        //Get and display search results
+        movies.forEach(async (movie) => {
+
+            url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
+            let response = await fetch(url);
+            let moviesListData = await response.json();
+
+            const movieID = moviesListData.imdbID;
+            i++;
+            idArray[i]= movieID;
+            const movieIDkey = moviesListData.imdbID + 'key';
+
+            //If all criteria is met, add to Result Counter (searchResultNo)
+            if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
+                searchResultNo++;
+                //If less than 10 movies are on screen, add another movie
+                if (moviesOnScreen < 10) {
+                    moviesOnScreen++;
+                    moviesList.innerHTML +=
+                    `
+                    <li name="card">
+                        <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
+                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                            <img src=${moviesListData.Poster} class="card-poster" />
+                            
+                            <div class="card-header">
+                                <a>
+                                    <h2 class="card-title">${moviesListData.Title}</h2>
+                                </a>
+                            </div>
+                            
+                            <div class="card-meta">
+                                <span class="card-year">${moviesListData.Year}</span>
+                            </div>
+                        </div>
+                    </li>
+                    `;
+                }
+            }
+        })
     }
 
     //Search for Episodes (different for above as array structure returned from API Query is different)
     async function searchEpisodes() {
         let searchMovie = $("#searchMovie").val();
 
-        let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue+"&page="+pageNo;
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue;
 
         let episodesRes = await fetch(url);
         let episodesData = await episodesRes.json();
-        let episodes = episodesData.Episodes;
+        episodes = episodesData.Episodes;
 
-        
-        console.log(url);
-        console.log(episodes);
-
+        //If there are no episodes found, return the function now
         if (!episodes) {
-            noEpisodes = true;
-            //Allow time for movies to be fully counted before displaying search result number
-            await sleep(400);
-        } else {
-            noEpisodes = false;
-            //Get and display search results
-            episodes.forEach(async (movie) => {
-
-                url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
-                let response = await fetch(url);
-                let moviesListData = await response.json();
-
-                const movieID = moviesListData.imdbID;
-                i++;
-                idArray[i]= movieID;
-                const movieIDkey = moviesListData.imdbID + 'key';
-
-                //If all criteria is met, add to Result Counter (searchResultNo)
-                if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
-                    searchResultNo++;
-                    //If less than 10 movies are on screen, add another movie
-                        if (moviesOnScreen < 10) {
-                        moviesOnScreen++;
-                        moviesList.innerHTML +=
-                        `
-                        <li name="card">
-                            <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
-                                <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
-                                <img src=${moviesListData.Poster} class="card-poster" />
-
-                                <div class="card-header">
-                                    <a onclick="expandDetails(${i})" href="#">
-                                        <h2 class="card-title">${moviesListData.Title}</h2>
-                                    </a>
-                                </div>
-                                
-                                <div class="card-meta">
-                                    <span class="card-year">${moviesListData.Year}</span>
-                                </div>
-                            </div>
-                        </li>
-                        `;
-                    }
-                }
-            })
+            return;
         }
+
+        //Get and display search results
+        episodes.forEach(async (movie) => {
+
+            url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+movie.imdbID;
+            let response = await fetch(url);
+            let moviesListData = await response.json();
+
+            const movieID = moviesListData.imdbID;
+            i++;
+            idArray[i]= movieID;
+            const movieIDkey = moviesListData.imdbID + 'key';
+
+            //If all criteria is met, add to Result Counter (searchResultNo)
+            if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
+                searchResultNo++;
+                //If less than 10 movies are on screen, add another movie
+                    if (moviesOnScreen < 10) {
+                    moviesOnScreen++;
+                    moviesList.innerHTML +=
+                    `
+                    <li name="card">
+                        <div onclick="expandDetails(${i})" href="#" class="card" id=${movieID}>
+                            <span id=${movieIDkey} class="hide movie-key">${movieIDkey}</span>
+                            <img src=${moviesListData.Poster} class="card-poster" />
+
+                            <div class="card-header">
+                                <a onclick="expandDetails(${i})" href="#">
+                                    <h2 class="card-title">${moviesListData.Title}</h2>
+                                </a>
+                            </div>
+                            
+                            <div class="card-meta">
+                                <span class="card-year">${moviesListData.Year}</span>
+                            </div>
+                        </div>
+                    </li>
+                    `;
+                }
+            }
+        })            
+        //Allow time for movies to be fully counted before displaying search result number
+        await sleep(400);   
     }
+    
+    
 
     //Display selected movie on right side of window
     async function expandDetailsFunction(i){
