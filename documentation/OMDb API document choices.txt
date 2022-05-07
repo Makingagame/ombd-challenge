@@ -42,4 +42,23 @@ Overhauled javascript, added cards html and css, added watchlist.
 Fixed a number of bugs, overall formatting work and tweaks.
 Created Expand Details section (clicking on movie in the left section brings it up in more detail on the right)
 
-Used debouncing on function to stop search function issue
+Only showing 10 movies (from first few pages) on left side of screen
+Originally created scroll bar to leave Results text on page, changed this to more resemble the wireframe
+
+Added pagination to grab all movie results (that meet search criteria) and display this number below search bar
+Found Metacritic rating data in JSON pulled, learnt that tomatometer can only be accessed with API Queries to a different API (Fandango), decided it's best to just use two available ratings.
+
+Instead of having an even movie poster ratio, I made it 125px x 150px, to make the square images displayed in the wireframe.
+
+When testing noticed that when the app searches for episodes it would throw out infinite requests, fixed this by removing the pagination from the episode search method - it's not needed as all episode of the selected season will be pulled in one API call.
+
+Chose to NOT make the scroll bar handle shorter. Originally I wanted it to line up with what the wireframe shows by making the bottom half of the scroll bar handle invisible.
+When doing this, the visible part of the scroll bar handle can never touch the bottom of the scroll bar track, also a user might be confused when clicking below the handle.
+
+Chose to add a SEARCHING message, so the user is aware that something is happening and encouraged to be patient
+
+Added "Too many results", "No results" and "Search bar is empty" messages based on error messages, directed the user towards typing rather than using the other filters
+
+Sticking to grid system even though it's become quite painful ;-;
+
+Decided not to make the whole page massively bordered like in the wireframe
