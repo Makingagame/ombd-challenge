@@ -7,6 +7,12 @@ const moviesList = document.getElementById('moviesList');
 const resultNo = document.getElementById('resultNo');
 const movieDetails = document.getElementById('movieDetails');
 const searchMovie = document.getElementById("searchMovie");
+const radioButtonAny = document.getElementById("radioButtonAny");
+const radioButtonMovies = document.getElementById("radioButtonMovies");
+const radioButtonSeries = document.getElementById("radioButtonSeries");
+const radioButtonEpisodes = document.getElementById("radioButtonEpisodes");
+const slider1 = document.getElementById("slider-1");
+const slider2 = document.getElementById("slider-2");
 const watchlist = document.getElementById('watchlist');
 const type = document.getElementsByName("type");
 const card = document.getElementsByName("card");
@@ -18,6 +24,7 @@ let pageNo = 0;
 let moviesOnScreen = 0;
 let searchResultNo = 0;
 let noMovies = true;
+let errorMessage = "";
 let val = "";
 let idArray = [];
 let i = 0;
@@ -29,7 +36,25 @@ let i = 0;
 if(!watchlist){
     val = type[1].value;
     let seasonValue = document.getElementById('season').value;
-/*  ------------------------------------------------------------------------------------------ 
+
+    //Debounce function taken from: https://www.geeksforgeeks.org/debouncing-in-javascript/
+    const debounce = (func, delay) => {
+        let debounceTimer
+        return function() {
+            const context = this;
+            const args = arguments;
+                clearTimeout(debounceTimer)
+                    debounceTimer
+                = setTimeout(() => func.apply(context, args), delay)   
+        }
+    }
+
+    //Sleep function        
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER FUNCTION
     ------------------------------------------------------------------------------------------ */
     window.onload = function(){
@@ -68,46 +93,69 @@ if(!watchlist){
         percent2 = (sliderTwo.value-sliderMinValue) / sliderRange * 100;
         sliderTrack.style.background = `linear-gradient(to right, #dadae5 ${percent1}% , grey ${percent1}% , grey ${percent2}%, #dadae5 ${percent2}%)`;
     }
+
 /*  ------------------------------------------------------------------------------------------ 
-                                    RADIO BUTTON FUNCTION
+                                    RADIO BUTTON FUNCTIONS
     ------------------------------------------------------------------------------------------ */
-    function radioButton(){
-        
-        if(type[0].checked)
-        {
-            //empty
-            val = type[0].value;
-        }
 
-        if(type[1].checked)
-        {
-            val = type[1].value;
-        }
+    radioButtonAny.addEventListener('click', debounce(function() {
+        console.log("ANY");
+        //Empty
+        val = type[0].value;
+        searchMovies(); 
+    }, 1000)); 
 
-        if(type[2].checked)
-        {
-            val = type[2].value;
-        }
+    radioButtonMovies.addEventListener('click', debounce(function() {
+        console.log("MOVIES");
+        val = type[1].value;
+        searchMovies(); 
+    }, 1000)); 
 
-        //When radio button is pressed, search for movies
-        //searchMovies();
-    }
+    radioButtonSeries.addEventListener('click', debounce(function() {
+        console.log("SERIES");
+        val = type[2].value;
+        searchMovies(); 
+    }, 1000)); 
+
+    radioButtonEpisodes.addEventListener('click', debounce(function() {
+        console.log("EPISODES");
+        //val not needed for episodes
+        searchMovies(); 
+    }, 1000)); 
+
 /*  ------------------------------------------------------------------------------------------ 
                                     SLIDER ONMOUSEUP FUNCTION
     ------------------------------------------------------------------------------------------ */
-    //Search is performed after slider button is released
-    function sliderClicked(){
-        //searchMovies();
-    };
+    //Search is performed after either slider button is released
+    slider1.addEventListener("click", debounce(function() {
+        console.log("YEAR1");
+        seasonValue = document.getElementById('season').value;
+        type[3].checked = true;
+        searchMovies(); 
+    }, 1000)); 
+
+    slider2.addEventListener("click", debounce(function() {
+        console.log("YEAR2");
+        searchMovies(); 
+    }, 1000)); 
 /*  ------------------------------------------------------------------------------------------ 
                                     TEXT BOX (SEASON) FUNCTION
     ------------------------------------------------------------------------------------------ */
-    //In the season text box, on focusout (user changes focus from search bar), set the season value and set type to 'Episodes'
-    season.addEventListener("focusout", e => {
+    /*In the season text box, if the value changes (up and down arrows) or keyup (button released): 
+    set the season value, set type to 'Episodes' and search for movies */
+    season.addEventListener("change", debounce(function() {
+        console.log("SEASON/EPISODES");
         seasonValue = document.getElementById('season').value;
         type[3].checked = true;
-        searchMovies();
-    })
+        searchMovies(); 
+    }, 1000)); 
+
+    season.addEventListener("keyup", debounce(function() {
+        console.log("SEASON/EPISODES");
+        seasonValue = document.getElementById('season').value;
+        type[3].checked = true;
+        searchMovies(); 
+    }, 1000)); 
 /*  ------------------------------------------------------------------------------------------ 
                                     EXPAND DETAILS FUNCTION
     ------------------------------------------------------------------------------------------ */
@@ -119,26 +167,9 @@ if(!watchlist){
                                         SEARCH FUNCTION
     ------------------------------------------------------------------------------------------ */
     
-    //Debounce function taken from: https://www.geeksforgeeks.org/debouncing-in-javascript/
-    const debounce = (func, delay) => {
-        let debounceTimer
-        return function() {
-            const context = this;
-            const args = arguments;
-                clearTimeout(debounceTimer)
-                    debounceTimer
-                = setTimeout(() => func.apply(context, args), delay)   
-        }
-    } 
-    
     searchMovie.addEventListener('keyup', debounce(function() {
         searchMovies(); 
     }, 1000)); 
-    
-    function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
 
     async function searchMovies(){
 
@@ -156,6 +187,12 @@ if(!watchlist){
             i = 0;
         }
          
+        //Add a "Searching" message while the searchMovies function is running
+        resultNo.innerHTML =
+        `
+            <span>SEARCHING ALL MOVIES... PLEASE WAIT</span>
+        `;
+
         //Run this block if the following radio buttons are selected: "Any", "Episodes"" 
         if (type[0].checked == true || type[3].checked == true) {
             await searchEpisodes();
@@ -168,23 +205,37 @@ if(!watchlist){
                 pageNo++;
                 await searchMoviesOrSeries();
                 console.log(pageNo);
-                
             } while (noMovies == false);
         }
 
-        //If there are no movies or episodes to display, display the below text instead
-        if (searchResultNo == 0) {
-            moviesList.innerHTML =
+        //If there are no movies or episodes to display, display the below text
+        if (searchResultNo == 0 && errorMessage == "Movie not found!") {
+            resultNo.innerHTML =
                 `
-                <p>No movies were found... please type something different to try again</p>
+                    <span>No results, please type something different to try again</span>
                 `;
+            return;
         }
-
-
-        //Add the number of results to the top of the movie display bar
+        //If there are too many movies or episodes to query, display the below text
+        if (searchResultNo == 0 && errorMessage == "Too many results.") {
+            resultNo.innerHTML =
+                `
+                    <span>Too many results, please type something more specific to try again</span>
+                `;
+            return;
+        }            
+        //If the search bar is empty, display the below text
+        if (searchResultNo == 0 && errorMessage == "EMPTY") {
+            resultNo.innerHTML =
+                `
+                    <span>Search bar is empty, please type something above to try again</span>
+                `;
+            return;
+        }    
+        //If there are search results, add the number of results to the top of the movie display bar
         resultNo.innerHTML =
         `
-                <span>${searchResultNo} RESULTS</span>
+            <span>${searchResultNo} RESULTS</span>
         `;
 
     }
@@ -198,6 +249,12 @@ if(!watchlist){
         let moviesRes = await fetch(url);   
         let moviesData = await moviesRes.json();
         let movies = moviesData.Search;
+        errorMessage = moviesData.Error;
+
+        if (!searchMovie) {
+            errorMessage = "EMPTY";
+            return;           
+        }
 
         if (!movies) {
             noMovies = true;
@@ -218,7 +275,7 @@ if(!watchlist){
             i++;
             idArray[i]= movieID;
             const movieIDkey = moviesListData.imdbID + 'key';
-
+            
             //If all criteria is met, add to Result Counter (searchResultNo)
             if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
                 searchResultNo++;
@@ -247,11 +304,18 @@ if(!watchlist){
                 }
             }
         })
+        //Allow time for movies to be fully counted before displaying search result number
+        await sleep(600);  
     }
 
     //Search for Episodes (different for above as array structure returned from API Query is different)
     async function searchEpisodes() {
         let searchMovie = $("#searchMovie").val();
+        
+        if (!searchMovie) {
+            errorMessage = "EMPTY";
+            return;           
+        }
 
         let url = "https://www.omdbapi.com/?apikey="+apikey+"&t="+searchMovie+"&Season="+seasonValue;
 
@@ -261,8 +325,13 @@ if(!watchlist){
 
         //If there are no episodes found, return the function now
         if (!episodes) {
+            //Allow time for episodes to be fully counted before displaying search result number
+            await sleep(400);
             return;
         }
+
+        //Unlike searchMoviesOrSeries function, searchEpisodes will only run once per search, so we can add results all at once
+        searchResultNo+=episodes.length;
 
         //Get and display search results
         episodes.forEach(async (movie) => {
@@ -278,7 +347,6 @@ if(!watchlist){
 
             //If all criteria is met, add to Result Counter (searchResultNo)
             if((moviesListData.Year >= sliderOne.value) && moviesListData.Year <= sliderTwo.value){
-                searchResultNo++;
                 //If less than 10 movies are on screen, add another movie
                     if (moviesOnScreen < 10) {
                     moviesOnScreen++;
@@ -304,8 +372,8 @@ if(!watchlist){
                 }
             }
         })            
-        //Allow time for movies to be fully counted before displaying search result number
-        await sleep(400);   
+        //Allow time for episodes to be fully counted before displaying search result number
+        await sleep(600);
     }
     
     
@@ -313,7 +381,8 @@ if(!watchlist){
     //Display selected movie on right side of window
     async function expandDetailsFunction(i){
 
-        let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]+"&tomatoes=true");
+        let url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i];
+        let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]);
         let moviesDetailsData = await response.json();
 
         const completePlot = moviesDetailsData.Plot;
@@ -330,6 +399,11 @@ if(!watchlist){
         if (moviesDetailsData.Metascore == "N/A") {
             metascoreRatingDenominator = "";
         }
+/*
+                    <button class="card-btn card-watchlist details-watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
+*/
+
 
         /*Need to finish Ratings section in card below - ensure you only display ratings if they exist, 
         currently there is an error if no imdb rating exists*/
@@ -341,19 +415,19 @@ if(!watchlist){
                 <img src=${moviesDetailsData.Poster} class="details-card-poster" />
 
                 <div class="details-card-header">
-                    <h1 class="details-card-title">${moviesDetailsData.Title}</h1>
+                    <h1 class="details-card-title"><br><br>${moviesDetailsData.Title}<br></h1>
                 </div>
                 
                 <div class="details-card-meta">
-                    <span>${moviesDetailsData.Rated}</span>
-                    <span class="details-card-runtime">${moviesDetailsData.Year}</span>
-                    <span>${moviesDetailsData.Genre}</span>
-                    <span class="details-card-runtime">${moviesDetailsData.Runtime}</span>
-                    <button class="card-btn card-watchlist details-watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
-                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
+                    <span>
+                    <span class="rating-border">${moviesDetailsData.Rated}</span>
+                    ${moviesDetailsData.Year} &middot;
+                    ${moviesDetailsData.Genre} &middot;
+                    ${moviesDetailsData.Runtime}
+                    </span>
                 </div>
                 <div class="details-card-actors">
-                    <span>${moviesDetailsData.Actors}</span>
+                    <span><br>${moviesDetailsData.Actors}</span>
                 </div>
             </div>
             <div class="details-card-plot">
@@ -445,7 +519,7 @@ for (let x = 0; x < localStorage.length; x++) {
 
     //Display every key's value to the watchlist
     if (watchlist) {
-        watchlist.innerHTML += `<div class="detailsCard">${getLocalStorage}</div>`;
+        watchlist.innerHTML += `<div class="details-card">${getLocalStorage}</div>`;
         displayWatchlistOrRemoveBtn();
         //Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {

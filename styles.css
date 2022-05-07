@@ -167,11 +167,12 @@ header h1 {
 }
 
 input[type="range"]{
+  margin-left: -41px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   width: 15%;
-  margin-top: 5px;
+  margin-top: 9px;
   outline: none;
   position: absolute;
   background-color: transparent;
@@ -179,11 +180,59 @@ input[type="range"]{
 }
 
 .slider-track{
+	-webkit-flex: 1; /* Safari */
+	-ms-flex: 1; /* IE 10 */
+	flex: 1; /* Standard syntax */
+  margin-left: 45px;
   width: 15%;
-  margin-top: 5px;
-  height: 5px;
+  margin-top: 8px;
+  height: 7px;
   position: absolute;
   border-radius: 5px;
+}
+
+
+.container{
+	display: -webkit-flex; /* Safari */		
+	display: flex; /* Standard syntax */
+}
+
+.column1{
+	padding-top: 3px;
+	-webkit-flex: 1; /* Safari */
+	-ms-flex: 1; /* IE 10 */
+	flex: 1; /* Standard syntax */
+}
+
+.column2{
+  margin-left: 255px;
+  margin-right: 1px;
+	padding-top: 3px;
+	-webkit-flex: 1; /* Safari */
+	-ms-flex: 1; /* IE 10 */
+	flex: 1; /* Standard syntax */
+}
+
+/* Only way I could find to make the second year value not fly off the screen when zooming in */
+/* This situation is likely a consequence of using px a lot instead of variable measurements */
+
+@media (max-width: 2000px) {
+  .column2 {
+    margin-left: 250px;
+
+  }
+}
+@media (max-width: 1800px) {
+  .column2 {
+    margin-left: 230px;
+
+  }
+}
+@media (max-width: 1600px) {
+  .column2 {
+    margin-left: 200px;
+
+  }
 }
 
 .filter-label{
@@ -193,23 +242,8 @@ input[type="range"]{
     margin-left: 100px;
 }
 
-.year-column1 {
-  float: left;
-  width: 29%;
-  padding: 10px;
-  margin-top: 2.2%;
-  margin-left: 2%;
-  margin-right: 2%;
-  font-size: large;
-  color: white;
-}
-.year-column2 {
-  float: left;
-  width: 29%;
-  padding: 10px;
-  margin-top: 2.2%;
-  font-size: large;
-  color: white;
+#range1{
+  margin-right: 50px;
 }
 
 /* Clear floats after the columns */
@@ -550,36 +584,35 @@ input[type="number"]{
 /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 
 .details-card {
-  max-height: auto;
-  max-width: 800px;
+  max-width: 1000px;
   padding-top: 25px;
   display: grid;
   column-gap: 1.5em;
   border-bottom: 1px solid #dfdddd;
   padding: 1em;
-  grid-auto-rows: 1fr 0.5fr 1fr 1fr;
+  /*Sometimes you've got to just commit to grid-areas */
   grid-template-areas:
-      'details-poster details-header'
-      'details-poster details-meta'
-      'details-poster details-plot'
-      'details-poster details-plot';
+      'details-poster details-header space space space'
+      'details-poster details-meta space space space'
+      'details-poster details-actors space space space'
+      'details-poster details-plot space space space';
 }
 
 @media (max-width: 650px) {
-  .detailsCard {
+  .details-card {
       gap: 1em;
       grid-template-columns: 40% 50%;
       grid-template-columns: 1fr 2fr;
-      grid-auto-rows: 0.75fr 0.5fr 0.9fr;
-
       grid-template-areas:
           'details-poster details-header'
           'details-poster details-meta'
-          'details-plot details-plot';
+          'details-plot details-actors';
   }
 }
 
 .details-card-plot {
+  float: left;
+  max-width: 1000px;
   border-bottom: 1px solid #dfdddd;
   padding: 1em;
   grid-area: details-plot;
@@ -590,27 +623,53 @@ input[type="number"]{
 .details-card-poster {
   grid-area: details-poster;
   border-radius: 2px;
-  height: 350px;
   max-width: 300px;
   object-fit: cover;
   width: auto;
 }
 
 .details-card-header {
+  float: left;
   grid-area: details-header;
   align-items: center;
   display: flex;
-  color: black;
-  font-size: 20px;
+  color: #242424;
+  font-size: 23px;
   margin-bottom: 0.5em;
 }
 
 .details-card-actors {
+  float: left;
+  grid-area: details-actors;
   align-items: center;
-  color: black;
+  color: #242424;
   display: flex;
-  font-size: 20px;
+  font-size: 22px;
   margin-bottom: 0.5em;
+}
+
+.details-card-meta {
+  float: left;
+  margin-right: 1em;
+  grid-area: details-meta;
+  align-items: center;
+  color: #3A3A3A;
+  display: flex;
+  font-size: 22px;
+  justify-content: space-between;
+}
+
+.rating-border {
+  border: 1px solid black;
+  color: black;
+  border-radius: 5px;
+  padding: 1px 10px 1px 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.ratings {
+  max-width: 1000px;
 }
 
 /* Create two equal columns that float next to each other */
@@ -662,27 +721,14 @@ input[type="number"]{
   margin-right: 2px;
 }
 
-.details-card-meta {
-  grid-area: details-meta;
-  align-items: center;
-  color: #3A3A3A;
-  display: flex;
-  font-size: 20px;
-  justify-content: space-between;
-}
-
 @media (max-width: 650px) {
   .details-card-meta {
       flex-direction: row;
       flex-wrap: wrap;
   }
 
-  .details-card-runtime {
-      margin-right: 1em;
-  }
-
   #details-watchlistBtn {
-      width: 100%;
+    width: 100%;
   }
 }
 

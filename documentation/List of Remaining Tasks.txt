@@ -1,65 +1,28 @@
-Make whole movie card clickable instead of just the title
-Make whole card highlight when clicked
-Add more accessibility features (alt text for images, links etc.)
-Add movie slider so you can scroll through the searched movies on the left (or make all elements absolute except left body)
-Format radio button section correctly
-Watchlist.html doesn't display all needed information
+REMAINING TASKS
 
-
-Consolidate these: (((
-
-Add "Too many results..." message 
-
-Add "No results..." message
-IF ARRAY IS EMPTY SEND THIS MESSAGE
-
-)))
-
-
-ISSUE: When typing quickly, multiple search functions can be triggered at the same time, which results in cloned results
-(two of the same movie will appear in search list) - need to add some sort of "wait" element, even if it's just for 200ms
-^^^ CAN PRESS ENTER INSTEAD
-
-
-
-WHAT'S THE FONT
-COLOURS OKAY
-
-
-Slider Okay?
-
-
-
-
-
-
-
-
-
-
-CRITICAL TASKS:
-
-RESULTS ISSUE:
-1. TAKES A REALLY LONG TIME WITH STAR WARS
-2. Sometimes the number is a few off (usually the first time only)
-
-WIREFRAME RESEMBLANCE TASKS
-3. Year Slider numbers should be moved to either side of the slider
-
-4. Re-format entire right section of screen where movie is displayed (move and redesign 'Watchlist' button, add a border around Rating, configure other movie details according to wireframe image)
-
-NICE-TO-HAVE TASKS
-5. Add "Too many results..." (FALSE ERROR) and "No results..." (FORMAT) messages to display on the left section of the page when appropriate. 
-
-6. ADD "SEARCHING" or "Loading Page x"
-
-
-
-
+1. Move and redesign 'Watchlist' button
+2. Review all code
+3. Documentation
+4. Take photo of final result
 
 Add pages to the movie app, 10 movies per page, so you can see every movie searched
 
 Add more accessibility features (alt text for images, movie posters, buttons, etc.)
 
+Add more Safari/Firefox-specific CSS
+(WORKS ON CHROME AND EDGE)
+
 Find the exact font used in the wireframe and use it in the application
 
+Add an image to be displayed when one cannot be found from the api
+
+Card bottom borders moving through scroll bar
+
+Throw/Catch Error Handlers
+
+Spend more time on Watchlist Formatting
+
+Highlighted inside of radio buttons is not always centered when zooming out/in. May need to change px values to % values
+
+RESULTS ISSUE:
+Sometimes the number is a few off (usually the first time only)

@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
-    <!--Slider links/sources-->
+    <!--Slider links/sources (Look into whether this can be removed after assignment submission)-->
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
          rel = "stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-------------------------------------------------------------------------------------------->
+
     <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,21 +44,25 @@
             <!-- Year Range Slider Filter -->
               <div class="filter-slider">
                 <div class="values">
-                  YEAR &nbsp; &nbsp; &nbsp; &nbsp;
-                  <!---->
-                  <span id="range1">
-                    0
-                  </span>
-                  <span> &dash; </span>
-                  <span id="range2">
-                    100
-                  </span>
+                  YEAR
                 </div>
                 <div class="container">
-                  <div class="slider-track"></div>
-                  <input type="range" min="1930" max="2030" value="1970" id="slider-1" oninput="slideOne()" onmouseup="sliderClicked()">
-                  <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo()" onmouseup="sliderClicked()">
+                  <div class="column1">
+                    <div class="slider-track"></div>
+                    <span id="range1">
+                      0
+                    </span>
+                    <input type="range" min="1930" max="2030" value="1970" id="slider-1" oninput="slideOne();">
+                    <input type="range" min="1930" max="2030" value="2015" id="slider-2" oninput="slideTwo();">
+                  </div>
+                  <div class="column2">
+                    <span id="range2">
+                      100
+                    </span>
+                  </div>
                 </div>
+                
+
               </div>
             </div>
 
@@ -65,19 +71,19 @@
               <div>
                 <label class="label-type" for="type">TYPE</label> <br>
                 <label class="filter-radio">
-                  <input type="radio" name="type" value="" onclick="radioButton();">Any
+                  <input type="radio" name="type" id="radioButtonAny" value="">Any
                   <span class="checkmark"></span>
                 </label>
                 <label class="filter-radio">
-                  <input type="radio" name="type" value="movie" onclick="radioButton();"checked>Movies
+                  <input type="radio" name="type" id="radioButtonMovies" value="movie" checked>Movies
                   <span class="checkmark"></span>
                 </label>
                 <label class="filter-radio">
-                  <input type="radio" name="type" value="series" onclick="radioButton();">Series
+                  <input type="radio" name="type" id="radioButtonSeries" value="series">Series
                   <span class="checkmark"></span>
                 </label>
                 <label class="filter-radio">
-                  <input type="radio" name="type" value="episodes" onclick="radioButton();">Episodes
+                  <input type="radio" name="type" id="radioButtonEpisodes" value="episodes">Episodes
                   <span class="checkmark"></span>
                 </label>
                 <br>
