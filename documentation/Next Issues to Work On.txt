@@ -1,0 +1,25 @@
+CSS ISSUES:
+1. Highlighted inside of radio buttons is not always centered when zooming out/in. May 	need to change px values to % values
+
+2. When scrolling out the watchlist content on watchlist.html will move to the left side of the screen instead of staying centered
+
+3. Very few accessibility features (alt text for images, movie posters, buttons, etc.)
+
+4. Very few CSS classes for Safari/Firefox
+
+5. The left-hand-side card's bottom borders should be overlapping through the scroll bar
+
+6. Could add an image to be displayed when one cannot be found from the api
+
+7. Exact fonts/colours used in the wireframe should be used in the application
+
+8. When multiple movie details are N/A (ratings, plot, actors) the formatting of the expanded details of the movie on the right side of the screen can start overlapping
+
+9. CSS could always be cleaned, there are some unused values, such as when values are stated but their inherited value is the same
+
+
+
+CODE ISSUES:
+1. I have noticed sometimes the number is a few off (usually the first time a phrase is searched only)
+
+2. Could have included Throw/Catch Error Handlers

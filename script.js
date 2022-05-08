@@ -99,26 +99,22 @@ if(!watchlist){
     ------------------------------------------------------------------------------------------ */
 
     radioButtonAny.addEventListener('click', debounce(function() {
-        console.log("ANY");
         //Empty
         val = type[0].value;
         searchMovies(); 
     }, 1000)); 
 
     radioButtonMovies.addEventListener('click', debounce(function() {
-        console.log("MOVIES");
         val = type[1].value;
         searchMovies(); 
     }, 1000)); 
 
     radioButtonSeries.addEventListener('click', debounce(function() {
-        console.log("SERIES");
         val = type[2].value;
         searchMovies(); 
     }, 1000)); 
 
     radioButtonEpisodes.addEventListener('click', debounce(function() {
-        console.log("EPISODES");
         //val not needed for episodes
         searchMovies(); 
     }, 1000)); 
@@ -128,14 +124,12 @@ if(!watchlist){
     ------------------------------------------------------------------------------------------ */
     //Search is performed after either slider button is released
     slider1.addEventListener("click", debounce(function() {
-        console.log("YEAR1");
         seasonValue = document.getElementById('season').value;
         type[3].checked = true;
         searchMovies(); 
     }, 1000)); 
 
     slider2.addEventListener("click", debounce(function() {
-        console.log("YEAR2");
         searchMovies(); 
     }, 1000)); 
 /*  ------------------------------------------------------------------------------------------ 
@@ -144,14 +138,12 @@ if(!watchlist){
     /*In the season text box, if the value changes (up and down arrows) or keyup (button released): 
     set the season value, set type to 'Episodes' and search for movies */
     season.addEventListener("change", debounce(function() {
-        console.log("SEASON/EPISODES");
         seasonValue = document.getElementById('season').value;
         type[3].checked = true;
         searchMovies(); 
     }, 1000)); 
 
     season.addEventListener("keyup", debounce(function() {
-        console.log("SEASON/EPISODES");
         seasonValue = document.getElementById('season').value;
         type[3].checked = true;
         searchMovies(); 
@@ -204,7 +196,6 @@ if(!watchlist){
                 //Increment page number to get all results from api
                 pageNo++;
                 await searchMoviesOrSeries();
-                console.log(pageNo);
             } while (noMovies == false);
         }
 
@@ -381,7 +372,6 @@ if(!watchlist){
     //Display selected movie on right side of window
     async function expandDetailsFunction(i){
 
-        let url = "https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i];
         let response = await fetch("https://www.omdbapi.com/?apikey="+apikey+"&i="+idArray[i]);
         let moviesDetailsData = await response.json();
 
@@ -390,6 +380,7 @@ if(!watchlist){
         const expandMovieIDkey = moviesDetailsData.imdbID + 'expandKey';
         const watchlistBtnKey = moviesDetailsData.imdbID + 'watchlistBtn';
         const removeBtnKey = moviesDetailsData.imdbID + 'removeBtn';
+
         let imdbRatingDenominator = "/10";
         let metascoreRatingDenominator = "/100";
 
@@ -399,37 +390,40 @@ if(!watchlist){
         if (moviesDetailsData.Metascore == "N/A") {
             metascoreRatingDenominator = "";
         }
-/*
-                    <button class="card-btn card-watchlist details-watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-icon.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
-                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/remove-icon.svg" alt="Remove film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
-*/
 
-
-        /*Need to finish Ratings section in card below - ensure you only display ratings if they exist, 
-        currently there is an error if no imdb rating exists*/
         movieDetails.innerHTML = 
         `
-        <div>
-            <div class="details-card" id=${expandMovieID}>
-                <span id=${expandMovieIDkey} class="hide movie-key">${expandMovieIDkey}</span>
-                <img src=${moviesDetailsData.Poster} class="details-card-poster" />
+        <div> 
 
-                <div class="details-card-header">
-                    <h1 class="details-card-title"><br><br>${moviesDetailsData.Title}<br></h1>
-                </div>
+            <div class="watchlist-container" id=${expandMovieID}>    
+                <span id=${expandMovieIDkey} class="hide movie-key">${expandMovieIDkey}</span>           
                 
-                <div class="details-card-meta">
-                    <span>
-                    <span class="rating-border">${moviesDetailsData.Rated}</span>
-                    ${moviesDetailsData.Year} &middot;
-                    ${moviesDetailsData.Genre} &middot;
-                    ${moviesDetailsData.Runtime}
-                    </span>
-                </div>
-                <div class="details-card-actors">
-                    <span><br>${moviesDetailsData.Actors}</span>
+                <div class="details-watchlist-button">
+                    <button class="card-btn card-watchlist watchlist-btn" id="${watchlistBtnKey}" onclick="addToWatchlist(${expandMovieIDkey}, ${expandMovieID}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-border.svg" alt="Add film to watchlist" class="card-watchlist-plus-icon" />&nbsp;Watchlist</button>
+                    <button class="card-btn card-watchlist remove-watchlist-btn" id="${removeBtnKey}" onclick="removeFromWatchlist(${expandMovieIDkey}, ${removeBtnKey}, ${watchlistBtnKey}, ${removeBtnKey})"><img src="images/watchlist-filled.svg" alt="Remove film from watchlist" class="card-watchlist-plus-icon" />&nbsp;Remove</button>
+                </div>               
+
+                <div class="details-card">
+                    <img src=${moviesDetailsData.Poster} class="details-card-poster" />
+                    
+                    <div class="details-card-header">
+                        <h1 class="details-card-title"><br><br>${moviesDetailsData.Title}<br></h1>
+                    </div>
+                    
+                    <div class="details-card-meta">
+                        <span>
+                        <span class="rating-classifications-border">${moviesDetailsData.Rated}</span>
+                        ${moviesDetailsData.Year} &middot;
+                        ${moviesDetailsData.Genre} &middot;
+                        ${moviesDetailsData.Runtime}
+                        </span>
+                    </div>
+                    <div class="details-card-actors">
+                        <span><br>${moviesDetailsData.Actors}</span>
+                    </div>
                 </div>
             </div>
+
             <div class="details-card-plot">
                 <p>${completePlot}</p>
             </div>
@@ -458,11 +452,9 @@ if(!watchlist){
     ------------------------------------------------------------------------------------------ */
 
 function displayWatchlistOrRemoveBtn() {
-    
     for (let movie of movieKey) {
         const removeBtnID = movie.id.slice(0, 9) + 'removeBtn';
         const removeBtn = document.getElementById(removeBtnID);
-
         const watchlistBtnID = movie.id.slice(0, 9) + 'watchlistBtn';
         const watchlistBtn = document.getElementById(watchlistBtnID);
 
@@ -516,11 +508,10 @@ if (watchlist && localStorage.length > 0) {
 
 for (let x = 0; x < localStorage.length; x++) {
     const getLocalStorage = localStorage.getItem(localStorage.key(x));
-
     //Display every key's value to the watchlist
     if (watchlist) {
-        watchlist.innerHTML += `<div class="details-card">${getLocalStorage}</div>`;
-        displayWatchlistOrRemoveBtn();
+        watchlist.innerHTML += `<div class="watchlist-container">${getLocalStorage}</div>`;
+        
         //Hide the 'add to watchlist' button
         for (let button of cardWatchlistBtn) {
             button.style.display = 'none';
