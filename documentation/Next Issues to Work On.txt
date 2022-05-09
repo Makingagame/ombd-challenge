@@ -18,7 +18,6 @@ CSS ISSUES:
 9. CSS could always be cleaned, there are some unused values, such as when values are stated but their inherited value is the same
 
 
-
 CODE ISSUES:
 1. I have noticed sometimes the number is a few off (usually the first time a phrase is searched only)
 
