@@ -5,9 +5,9 @@ Hi, thanks for reading me!
 		* Node 12 and some jQuery was used in it's creation.
 
 2.	In the 'documentation' folder of this project you can find:
-		* List of Remaining Issues: Covers the defects/potential improvements that I am aware of. I believe the submission meets all the requirements listed and displays my skills/ability to work off of a client brief.
+		* Next Issues to Work On.txt: Covers the defects/potential improvements that I am aware of. I believe the submission meets all the requirements listed and displays my skills/ability to work off of a client brief.
 
-		* OMDb API Choices Made: There is no real documentation for this project as I considered this outside the scope of the challenge, however this document covers major decisions made during design/building/testing.
+		* OMDb API Choices Made.txt: There is no real documentation for this project as I considered this outside the scope of the challenge, however this document covers major decisions made during design/building/testing.
 
 
 3.	I tried my best to make the application as close to the wireframe as possible, but I had to add some things for functionality:
