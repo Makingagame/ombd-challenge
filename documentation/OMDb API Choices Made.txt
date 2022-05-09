@@ -1,0 +1,92 @@
+This document is a headline of decisions made while designing/building the Movie App, there is no thorough documentation as there is no client/team to liaise with, no maintenance needed and frankly I considered it out of scope for this tech challenge.
+
+
+1. 	Used Google API Material Icons to get the magnifying glass icon.
+
+
+2. 	Used Google API jquery (so I won't have to download and run it on my end) - this could help with queriying JSON data.
+
+
+3. 	Aplication will have a Navbar Div that is split in two.
+		* Left side for the search bar
+		* Right side for the other filters (I later split this right side into two divs)
+
+
+4. 	Application will have two columns for main body content, as resembling wireframe.
+	Only what is on screen is what will be created (excepting the watchlist mentioned in the assignment description)
+
+5.	Application will use cards in ul/li elements (so they can be clicked) for searched movie list.
+
+
+6.	To search, an onkeyup event will trigger an API call (an API call every key pressed).
+	The API calls will operate under a debounce timer to ensure the user doesn't make calls multiple times every second.
+	Also allow any filter button being pressed/altered to trigger an API call.
+
+
+7.	After considering how to retain watchlist information between sessions, explored whether React.js should be used.
+	Decision made against React.js, javascript is fine on it's own. Will use local storage.
+
+
+8.	Downloaded node.js 12.13.0
+	Downloaded nvm and gitbash, unsure whether I will need these in the future.
+
+
+9.	Followed a few different tutorials for others' implementations of omdb api movie search apps.
+
+
+10.	Some of my code is based off of the following solution (mainly the watchlist functionality): https://www.youtube.com/watch?v=KUUSwCAUF0k
+
+
+11.	Built HTML filters, slider, radio buttons, built basic API Query
+
+
+12.	Multi-thumb sliders are complicated!! Found the jQuery UI range slider, but had problems making it work (not formatted correctly).
+	Chose another slider import which functioned fine - but did not look the same as the wireframe.
+	Settled on currently used slider, found here - https://www.youtube.com/watch?v=DfSYmk_6vk8&ab_channel=CodingArtist
+	Later altered this slider to align with what is shown in the wireframe example.
+
+
+13.	Updated API Query to include filters and return more than one movie.
+
+
+14.	Estimated intended beginning year of slider would be 1930 and end year would be 2030 (understanding that this app would need to be updated in 8 years)
+
+
+15.	Added a text box for Season No. so that episodes could be searched properly (requirement to search episodes with OMDb API)
+
+
+16.	Used new async "fetch" function. Added cards with html, css and javascript.
+	Overhauled javascript, added cards html and css, added watchlist.
+
+
+17.	Fixed a number of bugs, overall formatting work and tweaks.
+	Created Expand Details section (clicking on movie in the left section brings it up in more detail on the right).
+
+
+18.	Decided to only show 10 movies (from first few pages) on left side of screen.
+
+
+19.	Added pagination to grab all movie results (that meet search criteria) and display this number below search bar.
+	Found Metacritic rating data, learnt that tomatometer can only be accessed with API Queries to a different API (Fandango), decided it's best to just use the two available ratings.
+
+
+20.	When testing noticed that when the app searches for episodes it would throw out infinite requests, fixed this by removing the pagination from the episode search method - it's not needed as all episode of the selected season will be pulled in one API call, unlike when searching movies/series.
+
+
+21. 	Chose to NOT make the scroll bar handle shorter. 
+	Originally I wanted it to line up with what the wireframe shows by making the bottom half of the scroll bar handle invisible.
+	When doing this, the visible part of the scroll bar handle can never touch the bottom of the scroll bar track. 
+	Also a user might be confused when clicking below the handle.
+
+
+22.	Added a SEARCHING message, so the user is aware that something is happening in the background and encouraged to be patient.
+
+
+23.	Added "Too many results", "No results" and "Search bar is empty" messages based on error messages.
+	Directed the user towards typing rather than using the other filters.
+
+
+24. 	Fixed up rest of css and javascript.
+
+
+25.	Lamented that I didn't date these numbered points. ;-; - 09/05/2022
