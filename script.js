@@ -1,7 +1,7 @@
 /*  ------------------------------------------------------------------------------------------ 
                                     GLOBAL DECLARATIONS
     ------------------------------------------------------------------------------------------ */
-const apikey = "9f8a2da0";
+const apikey = "3647c1e3";
 const season = document.getElementById('season');
 const moviesList = document.getElementById('moviesList');
 const resultNo = document.getElementById('resultNo');
