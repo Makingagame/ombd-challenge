@@ -37,7 +37,7 @@ if(!watchlist){
     val = type[1].value;
     let seasonValue = document.getElementById('season').value;
 
-    //Debounce function taken from: https://www.geeksforgeeks.org/debouncing-in-javascript/
+    //Debounce function copied from: https://www.geeksforgeeks.org/debouncing-in-javascript/
     const debounce = (func, delay) => {
         let debounceTimer
         return function() {
@@ -124,8 +124,6 @@ if(!watchlist){
     ------------------------------------------------------------------------------------------ */
     //Search is performed after either slider button is released
     slider1.addEventListener("click", debounce(function() {
-        seasonValue = document.getElementById('season').value;
-        type[3].checked = true;
         searchMovies(); 
     }, 1000)); 
 
